@@ -25,7 +25,7 @@ set sidescrolloff=5
 set sidescroll=1
 " allow motions and back-spacing over line-endings etc
 set backspace=indent,eol,start
-set whichwrap=h,l,b
+set whichwrap=h,l,b,<,>
 " underscores denote words
 set iskeyword-=_-
 " :W sudo saves the file
@@ -157,11 +157,11 @@ nnoremap <leader>L ^V$u
 " current line upper case
 nnoremap <leader>U ^V$U
 " shift tab to insert tab char
-inoremap <S-Tab> <C-V><Tab>
+inoremap <s-tab> <c-v><tab>
 " operate inside parantheses (dp delete function parameter)
 onoremap p i(
 " shift H to clear search highlighting
-nnoremap <S-H> :set hlsearch!<cr>
+nnoremap <s-h> :set hlsearch!<cr>
 map <silent> <leader><cr> :set hlsearch!<cr>
 " open an explorer
 nnoremap <leader>e :Vexplore!<cr>
