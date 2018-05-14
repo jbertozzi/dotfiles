@@ -105,7 +105,7 @@ set smartcase
 set dictionary=/usr/share/dict/words
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" tab, buffer and window configuration (TO DO)
+" tab, buffer and window configuration
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " always open new windows on the right
@@ -123,7 +123,7 @@ nnoremap <s-tab> :bprevious<cr>
 " open a new tab
 nnoremap <leader>tn :tabnew<cr>
 " send all the open buffers and open a dedicated tab
-nnoremap <leader>ta tab sball
+nnoremap <leader>ta :tab sball<cr>
 " close all tab exepect the current one
 nnoremap <leader>to :tabonly<cr>
 " close current tab
