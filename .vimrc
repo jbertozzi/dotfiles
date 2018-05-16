@@ -64,6 +64,8 @@ set softtabstop=2
 set autoindent
 " wrap lines
 set wrap
+" don't insert space after J
+set nojoinspaces
 " language specific
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
 autocmd FileType yaml setlocal keywordprg=ansible-doc autoindent tabstop=2 shiftwidth=2 expandtab
@@ -148,6 +150,8 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 " double quote the current word
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+" single quote the current word
+nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
 " current word lower case
 nnoremap <leader>l evbu
 " current word upper case
@@ -167,7 +171,7 @@ map <silent> <leader><cr> :set hlsearch!<cr>
 nnoremap <leader>e :Vexplore!<cr>
 " map <Space> to /
 nnoremap <space> /
-" Limit line-length to 80 columns by highlighting col 81 onward
+" limit line-length to 80 columns by highlighting col 81 onward
 nnoremap <leader>m :set colorcolumn=81<cr>
 nnoremap <leader>M :set colorcolumn=0<cr>
 " strip white space
