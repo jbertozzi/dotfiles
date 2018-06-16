@@ -3,10 +3,12 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " color scheme
-" colorscheme elflord
-colorscheme desert
+ colorscheme elflord
+" colorscheme desert
+" allow switching between buffers without writing them
+set hidden
 " how many line of history
-set history=500
+set history=5000
 " re-load file when modified from outisde
 set autoread
 " encoding
@@ -19,8 +21,8 @@ let maplocalleader = ","
 " 256 colours
 set t_Co=256
 " start scrolling slightly before the cursor reaches an edge
-set scrolloff=5
-set sidescrolloff=5
+set scrolloff=10
+set sidescrolloff=10
 " scroll sideways a character at a time, rather than a screen at a time
 set sidescroll=1
 " allow motions and back-spacing over line-endings etc
@@ -33,13 +35,19 @@ command! W w !sudo tee % > /dev/null
 " enable filetype plugins
 filetype plugin on
 filetype indent on
-" backup and swap files
-set backup
-set swapfile
+" backup, undo and swap files
+if !isdirectory($HOME."/.vim/tmp/undo-dir")
+  call mkdir($HOME."/.vim/tmp/undo-dir", "p", 0750)
+endif
 set backupdir=~/.vim/tmp
 set directory=~/.vim/tmp
+set undodir=~/.vim/tmp/undo-dir
+set backup
+set noswapfile
+set undofile
 " tags file
 set tags=.tags
+autocmd BufWritePost * call system("ctags -R -f .tags")
 " show file title in terminal tab
 set title
 " rename pane with file name
@@ -49,6 +57,14 @@ if exists('$TMUX')
 endif
 " return to last edit position when opening files
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Line number
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set number
+highlight LineNr ctermfg=grey
+set cursorline
+highlight clear CursorLine
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " text, tab and indent
@@ -107,7 +123,7 @@ set smartcase
 set dictionary=/usr/share/dict/words
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" tab, buffer and window configuration
+" tab, buffer and window configuration (TO DO)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " always open new windows on the right
@@ -143,15 +159,16 @@ noremap <c-l> <c-w>l
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " useful mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+" exit insert mode with jj
+inoremap jj <esc>
 " edit vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 " reload vimrc
 nnoremap <leader>sv :source $MYVIMRC<cr>
-" double quote the current word
-nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 " single quote the current word
 nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
+" double quote the current word
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 " current word lower case
 nnoremap <leader>l evbu
 " current word upper case
@@ -182,5 +199,20 @@ function! StripWhitespace()
 	call setpos('.', save_cursor)
 	call setreg('/', old_query)
 endfunction
-
 nnoremap <leader>ss :call StripWhitespace()<cr>
+" comment / uncomment selection
+vnoremap <leader>c :s/^/#/<cr> 
+vnoremap <leader>C :s/^#//<cr>
+" execute (run) current file
+nnoremap <leader>r :w<cr>:!./%
+" ctrl + j to break line
+nnoremap <nl> i<cr><esc>
+" create a mark and jump to next tag matching word under the cursor
+nnoremap <leader>j mjg<c-]>
+" toggle line number
+nnoremap <leader>n :set number!<cr>
+" :%s//g shortcut
+nnoremap S :%s//g<left><left>
+vnoremap S :s//g<left><left>
+" french keyboard... ' is preferred over ` when it comes to marks
+nnoremap ' `
