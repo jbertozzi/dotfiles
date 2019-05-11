@@ -29,13 +29,13 @@ set sidescroll=1
 set backspace=indent,eol,start
 set whichwrap=h,l,b,<,>
 " underscores denote words
-set iskeyword-=_-
+set iskeyword+=-
 " :W sudo saves the file
 command! W w !sudo tee % > /dev/null
 " enable filetype plugins
 filetype plugin on
 filetype indent on
-" backup, undo and swap files
+" backup, undo and swap files (in another directory)
 if !isdirectory($HOME."/.vim/tmp/undo-dir")
   call mkdir($HOME."/.vim/tmp/undo-dir", "p", 0750)
 endif
@@ -43,11 +43,8 @@ set backupdir=~/.vim/tmp
 set directory=~/.vim/tmp
 set undodir=~/.vim/tmp/undo-dir
 set backup
-set noswapfile
+set swapfile
 set undofile
-" tags file
-set tags=.tags
-autocmd BufWritePost * call system("ctags -R -f .tags")
 " show file title in terminal tab
 set title
 " rename pane with file name
@@ -104,7 +101,6 @@ set showcmd
 " allow modelines
 set modeline
 " show current line and column position in file
-set ruler
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " search related
@@ -138,16 +134,8 @@ nnoremap <leader>ba :bufdo bd<cr>
 nnoremap <tab> :bnext<cr>
 " previous buffer
 nnoremap <s-tab> :bprevious<cr>
-" open a new tab
-nnoremap <leader>tn :tabnew<cr>
-" send all the open buffers and open a dedicated tab
-nnoremap <leader>ta :tab sball<cr>
-" close all tab exepect the current one
-nnoremap <leader>to :tabonly<cr>
-" close current tab
-nnoremap <leader>tc :tabclose<cr>
-" move tab as first
-nnoremap <leader>tf :tabmove 0 <cr>
+" close buffer
+nnoremap <leader>d :bd<cr>
 " navigate between windows
 noremap <c-h> <c-w>h
 noremap <c-j> <c-w>j
@@ -159,8 +147,8 @@ noremap <c-l> <c-w>l
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " useful mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" exit insert mode with jj
-inoremap jj <esc>
+" exit insert mode with jk
+inoremap jk <esc>
 " edit vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 " reload vimrc
@@ -182,8 +170,7 @@ inoremap <s-tab> <c-v><tab>
 " operate inside parantheses (dp delete function parameter)
 onoremap p i(
 " shift H to clear search highlighting
-nnoremap <s-h> :set hlsearch!<cr>
-map <silent> <leader><cr> :set hlsearch!<cr>
+nnoremap <s-h> :let @/ = ""<cr>
 " open an explorer
 nnoremap <leader>e :Vexplore!<cr>
 " map <Space> to /
@@ -201,14 +188,14 @@ function! StripWhitespace()
 endfunction
 nnoremap <leader>ss :call StripWhitespace()<cr>
 " comment / uncomment selection
-vnoremap <leader>c :s/^/#/<cr> 
-vnoremap <leader>C :s/^#//<cr>
+vnoremap <leader>c :s/^/#/<cr>:let @/ = ""<cr>
+vnoremap <leader>C :s/^#//<cr>:let @/ = ""<cr>
 " execute (run) current file
 nnoremap <leader>r :w<cr>:!./%
 " ctrl + j to break line
-nnoremap <nl> i<cr><esc>
+" nnoremap <nl> i<cr><esc>
 " create a mark and jump to next tag matching word under the cursor
-nnoremap <leader>j mjg<c-]>
+nnoremap <leader>j :%!python -m json.tool<cr>
 " toggle line number
 nnoremap <leader>n :set number!<cr>
 " :%s//g shortcut
@@ -216,3 +203,35 @@ nnoremap S :%s//g<left><left>
 vnoremap S :s//g<left><left>
 " french keyboard... ' is preferred over ` when it comes to marks
 nnoremap ' `
+let g:vimwiki_list = [{'path':'~/doc'}]
+let g:vimwiki_global_ext=0
+" synchronize scrolling over mutliple windows
+nnoremap <leader>s :set scrollbind!<cr>
+" copy full buffer into X11 clipboard (requires vimx)
+nnoremap <leader>y mygg"+yG`y
+" do not use arrows
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+" gf create the file under the cursor if it doesn't exist
+map gf :e <cfile><cr>
+" change working dir to current file path
+map <leader>cd :cd %:h<cr>
+" replace visual selection by content of unamed register
+vmap r "_dP
+
+" plugins
+" highligth next/previous occurence of pattern
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+" highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+if &diff
+  syntax off
+endif
+" auto commit vimwiki
+function! AutoGitCommit()
+  execute '!cd ' . expand("<amatch>:p:h") . ' && git add "' . expand("%:t") . '" && git commit -m "Auto commit of ' .  expand("<afile>:t") . '"  && git push origin'
+endfunction
+autocmd! BufWritePost ~/doc/* call AutoGitCommit()
+" ctrp
+set runtimepath^=~/.vim/bundle/ctrlp.vim
