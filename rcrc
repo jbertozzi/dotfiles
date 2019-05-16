@@ -1,4 +1,2 @@
 DOTFILES_DIRS="~/dev/dotfiles" 
 EXCLUDES="LICENSE"
-
-
