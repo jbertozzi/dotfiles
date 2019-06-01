@@ -4,6 +4,7 @@
 
 " color scheme
  colorscheme elflord
+ colorscheme solarized
 " colorscheme desert
 " allow switching between buffers without writing them
 set hidden
@@ -69,6 +70,8 @@ highlight clear CursorLine
 
 " insert spaces instead of tab characters
 set expandtab
+" display special char for weird space (fighting yaml o/)
+set listchars=nbsp:☠,tab:▸␣
 " size of an indent measured in spaces
 set shiftwidth=2
 set tabstop=2
@@ -203,7 +206,8 @@ nnoremap S :%s//g<left><left>
 vnoremap S :s//g<left><left>
 " french keyboard... ' is preferred over ` when it comes to marks
 nnoremap ' `
-let g:vimwiki_list = [{'path':'~/doc'}]
+let g:vimwiki_list = [{'path': '~/doc/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_global_ext=0
 " synchronize scrolling over mutliple windows
 nnoremap <leader>s :set scrollbind!<cr>
