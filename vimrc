@@ -4,7 +4,7 @@
 
 " color scheme
  colorscheme elflord
- colorscheme solarized
+"  colorscheme solarized
 " colorscheme desert
 " allow switching between buffers without writing them
 set hidden
