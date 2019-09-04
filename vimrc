@@ -146,6 +146,14 @@ noremap <c-k> <c-w>k
 noremap <c-l> <c-w>l
 " all new buffers go into a separate tab
 " autocmd BufAdd,BufNewFile,BufRead * nested tab sball
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" quickfix interaction
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" search word under cursor and open a quickfix list
+nnoremap <leader>s :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+noremap <C-j> :cnext<CR>
+noremap <C-k> :cprevious<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " useful mapping
@@ -210,7 +218,7 @@ let g:vimwiki_list = [{'path': '~/doc/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_global_ext=0
 " synchronize scrolling over mutliple windows
-nnoremap <leader>s :set scrollbind!<cr>
+" nnoremap <leader>s :set scrollbind!<cr>
 " copy full buffer into X11 clipboard (requires vimx)
 nnoremap <leader>y mygg"+yG`y
 " do not use arrows
