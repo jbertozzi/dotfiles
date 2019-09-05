@@ -10,8 +10,9 @@ fi
 PATH=$PATH:$HOME/.local/bin:$HOME/go/bin
 export PATH
 
-if [ -f ~/.proxy ]; then
-  source ~/.proxy
+# local config
+if [ -f ~/.bash_local ]; then
+  source ~/.bash_local
 fi
 
 c_yell='\[\e[00;33m\]'
