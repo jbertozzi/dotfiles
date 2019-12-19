@@ -56,7 +56,7 @@ set_prompt () {
         PS1+="${c_red}\\u$Green@\\h# "
     else
         #PS1+="$Green\\u@\\h "
-        PS1+="${c_cyan}\u@\h${c_reset}:\w\$ "
+        PS1+="${c_cyan}\u@\h:${c_yell}\w ${c_reset}\$ "
     fi
     PS1+="${c_reset}"
 }
