@@ -232,6 +232,8 @@ map gf :e <cfile><cr>
 map <leader>cd :cd %:h<cr>
 " replace visual selection by content of unamed register
 vmap r "_dP
+" append to register a after adding a coma
+noremap <silent> <leader>a :call setreg('A', ',')<CR>"AyW
 
 " plugins
 " highligth next/previous occurence of pattern
@@ -247,3 +249,4 @@ endfunction
 autocmd! BufWritePost ~/doc/* call AutoGitCommit()
 " ctrp
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+xnoremap "+y y:call system("wl-copy", @")<cr>
