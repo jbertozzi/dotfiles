@@ -158,6 +158,9 @@ noremap <C-k> :cprevious<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " useful mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" delete previous word in insert mode
+noremap! <c-bs> <c-w>
+noremap! <c-h> <c-w>
 " exit insert mode with jk
 inoremap jk <esc>
 " edit vimrc
