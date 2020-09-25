@@ -90,6 +90,13 @@ autocmd FileType python setlocal keywordprg=pydoc autoindent tabstop=4 shiftwidt
 autocmd FileType perl setlocal keywordprg=perldoc  autoindent tabstop=2 shiftwidth=2 expandtab
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" tags navigation
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" navigate between tags
+nnoremap <leader>t :tnext<cr>
+nnoremap <leader>T :tprevious<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " status line
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -232,7 +239,8 @@ map gf :e <cfile><cr>
 map <leader>cd :cd %:h<cr>
 " replace visual selection by content of unamed register
 vmap r "_dP
-
+" find our which commit modified the current line
+nmap <silent><leader>g :call setbufvar(winbufnr(popup_atcursor(split(system("git log -n 1 -L " . line(".") . ",+1:" . expand("%:p")), "\n"), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<cr>
 " plugins
 " highligth next/previous occurence of pattern
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
