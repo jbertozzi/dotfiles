@@ -165,6 +165,9 @@ noremap <C-k> :cprevious<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " useful mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" delete previous word in insert mode
+noremap! <c-bs> <c-w>
+noremap! <c-h> <c-w>
 " exit insert mode with jk
 inoremap jk <esc>
 " edit vimrc
@@ -241,6 +244,8 @@ map <leader>cd :cd %:h<cr>
 vmap r "_dP
 " find our which commit modified the current line
 nmap <silent><leader>g :call setbufvar(winbufnr(popup_atcursor(split(system("git log -n 1 -L " . line(".") . ",+1:" . expand("%:p")), "\n"), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<cr>
+" append to register a after adding a coma
+noremap <silent> <leader>a :call setreg('A', ',')<CR>"AyW
 " plugins
 " highligth next/previous occurence of pattern
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
@@ -255,3 +260,4 @@ endfunction
 autocmd! BufWritePost ~/doc/* call AutoGitCommit()
 " ctrp
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+xnoremap "+y y:call system("wl-copy", @")<cr>
