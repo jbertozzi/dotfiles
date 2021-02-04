@@ -40,7 +40,9 @@ case $TERM in
     ;;
 esac
 
+## aliases
 alias vi=vim
+alias y2j="python3 -c 'import sys, yaml, json; y=yaml.load(sys.stdin.read(), Loader=yaml.FullLoader); print(json.dumps(y, indent=4))'"
 
 if [ -z "$TMUX" ]; then
   tmux
