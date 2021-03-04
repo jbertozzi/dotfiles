@@ -46,6 +46,13 @@ if [ -z "$TMUX" ]; then
   tmux
 fi
 
+# OpenPGP applet support for YubiKey NEO
+if [ ! -f /tmp/gpg-agent.env ]; then
+  killall gpg-agent;
+  eval $(gpg-agent --daemon --enable-ssh-support > /tmp/gpg-agent.env);
+fi
+. /tmp/gpg-agent.env
+
 # local config
 if [ -f ~/.bash_local ]; then
   source ~/.bash_local
