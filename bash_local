@@ -63,3 +63,23 @@ set_prompt () {
 
 trap 'timer_start' DEBUG
 PROMPT_COMMAND='set_prompt'
+if [ -x $(which kubectl 2> /dev/null) ]; then
+source <(kubectl completion bash)
+alias k=kubectl
+complete -F __start_kubectl k
+fi
+
+[[ -e /usr/share/fzf/shell/key-bindings.bash ]] && . /usr/share/fzf/shell/key-bindings.bash
+
+# fzf
+if [ -x $(which fzf 2> /dev/null) ] ; then
+  [[ -e /usr/share/fzf/shell/key-bindings.bash ]] && . /usr/share/fzf/shell/key-bindings.bash
+  [[ -x $(which rg 2> /dev/null) ]] && export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+  export FZF_DEFAULT_OPTS="--multi"
+  FZF_DEFAULT_OPTS+=" --color='light'"
+  FZF_DEFAULT_OPTS+=" --height 60%"
+  FZF_DEFAULT_OPTS+=" --bind 'ctrl-u:preview-up,ctrl-d:preview-down,ctrl-o:toggle+up,ctrl-i:toggle+down,ctrl-space:toggle-preview'"
+  FZF_DEFAULT_OPTS+=" --preview '[[ -d {} ]] && echo \"{} is a directory\" || (bat --style=numbers --color=always {} || cat {}) 2> /dev/null | head -300'"
+  FZF_DEFAULT_OPTS+=" --preview-window=:hidden:right:50%"
+fi
+
