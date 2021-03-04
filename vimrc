@@ -215,8 +215,10 @@ vnoremap <leader>C :s/^#//<cr>:let @/ = ""<cr>
 nnoremap <leader>r :w<cr>:!./%
 " ctrl + j to break line
 " nnoremap <nl> i<cr><esc>
-" create a mark and jump to next tag matching word under the cursor
-nnoremap <leader>j :%!python -m json.tool<cr>
+" convert to human json
+nnoremap <leader>j :%!python3 -m json.tool<cr>
+" convert yaml to json
+nnoremap <leader>jy :%!python3 -c 'import sys, yaml, json; y=yaml.load(sys.stdin.read(), Loader=yaml.FullLoader); print(json.dumps(y, indent=4))'<cr>
 " toggle line number
 nnoremap <leader>n :set number!<cr>
 " :%s//g shortcut
