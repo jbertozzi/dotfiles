@@ -151,6 +151,10 @@ noremap <c-h> <c-w>h
 noremap <c-j> <c-w>j
 noremap <c-k> <c-w>k
 noremap <c-l> <c-w>l
+" cursor goes to last position when opening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
 " all new buffers go into a separate tab
 " autocmd BufAdd,BufNewFile,BufRead * nested tab sball
 "
