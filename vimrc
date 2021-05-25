@@ -261,3 +261,8 @@ autocmd! BufWritePost ~/doc/* call AutoGitCommit()
 " ctrp
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 xnoremap "+y y:call system("wl-copy", @")<cr>
+set completeopt=longest,menuone
+" make ctrl-j/k works in popup
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+source ~/.vimrc_local
