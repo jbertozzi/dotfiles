@@ -49,6 +49,13 @@ if [ -z "$TMUX" ]; then
   tmux
 fi
 
+# bash command timer
+# https://raw.githubusercontent.com/jichu4n/bash-command-timer/master/bash_command_timer.sh
+if [ -e ~/.bash_command_timer.sh ] ; then
+  export BCT_TIME_FORMAT="%Y/%m/%d %H:%M:%S"
+  source ~/.bash_command_timer.sh
+fi
+
 # kubernetes
 function get_cluster_short() {
   echo "$1" | cut -d @ -f2
@@ -75,14 +82,7 @@ if [ $(command -v kubectl) ]; then
   fi
 fi
 
-# bash command timer
-# https://raw.githubusercontent.com/jichu4n/bash-command-timer/master/bash_command_timer.sh
-if [ -e ~/.bash_command_timer.sh ] ; then
-  source ~/.bash_command_timer.sh
-fi
-export BCT_TIME_FORMAT="%Y/%m/%d %H:%M:%S"
-
 # local config
-if [ -f ~/.bash_local ]; then
-  source ~/.bash_local
-fi
+#if [ -f ~/.bash_local ]; then
+#  source ~/.bash_local
+#fi
