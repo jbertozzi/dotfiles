@@ -70,8 +70,8 @@ if [ $(command -v kubectl) ]; then
   # https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh
   if [ -f ~/.kube-ps1.sh ]; then
     source ~/.kube-ps1.sh
+    KUBE_PS1_ENABLED=off
     export KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
-    export KUBE_PS1_ENABLED=on
     export KUBE_PS1_CTX_COLOR=green
     export KUBE_PS1_PREFIX="["
     export KUBE_PS1_SUFFIX="]"
@@ -83,6 +83,6 @@ if [ $(command -v kubectl) ]; then
 fi
 
 # local config
-#if [ -f ~/.bash_local ]; then
-#  source ~/.bash_local
-#fi
+if [ -f ~/.bash_local ]; then
+  source ~/.bash_local
+fi
