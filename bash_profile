@@ -44,6 +44,7 @@ esac
 # aliases
 alias vi=vim
 alias y2j="python3 -c 'import sys, yaml, json; y=yaml.load(sys.stdin.read(), Loader=yaml.FullLoader); print(json.dumps(y, indent=4))'"
+alias jwt="jq -R 'split(\".\") | .[1] | @base64d | fromjson'"
 
 if [ -z "$TMUX" ]; then
   tmux
@@ -52,8 +53,8 @@ fi
 # bash command timer
 # https://raw.githubusercontent.com/jichu4n/bash-command-timer/master/bash_command_timer.sh
 if [ -e ~/.bash_command_timer.sh ] ; then
-  export BCT_TIME_FORMAT="%Y/%m/%d %H:%M:%S"
   source ~/.bash_command_timer.sh
+  export BCT_TIME_FORMAT="%Y/%m/%d %H:%M:%S"
 fi
 
 # kubernetes
@@ -67,6 +68,9 @@ if [ $(command -v kubectl) ]; then
   source <(kubectl completion bash)
   complete -F __start_kubectl k
   export do='--dry-run=client -oyaml'
+  if [ $(command -v kubectx) ]; then
+    alias kx=kubectx
+  fi
   # https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh
   if [ -f ~/.kube-ps1.sh ]; then
     source ~/.kube-ps1.sh
