@@ -283,3 +283,5 @@ set completeopt=longest,menuone
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 source ~/.vimrc_local
+" set background=light
+colorscheme solarized8
