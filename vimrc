@@ -53,8 +53,17 @@ if exists('$TMUX')
     autocmd BufEnter * call system("tmux rename-window '" . expand("%:t") . "'")
     autocmd VimLeave * call system("tmux setw automatic-rename")
 endif
-" return to last edit position when opening files
-autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" restore cursor position
+function! ResCur()
+  if line("'\"") <= line("$")
+    normal! g`"
+    return 1
+  endif
+endfunction
+augroup resCur
+  autocmd!
+  autocmd BufWinEnter * call ResCur()
+augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Line number
@@ -208,17 +217,6 @@ function! StripWhitespace()
 	call setreg('/', old_query)
 endfunction
 nnoremap <leader>ss :call StripWhitespace()<cr>
-" restore cursor position
-function! ResCur()
-  if line("'\"") <= line("$")
-    normal! g`"
-    return 1
-  endif
-endfunction
-augroup resCur
-  autocmd!
-  autocmd BufWinEnter * call ResCur()
-augroup END
 " comment / uncomment selection
 vnoremap <leader>c :s/^/#/<cr>:let @/ = ""<cr>
 vnoremap <leader>C :s/^#//<cr>:let @/ = ""<cr>
