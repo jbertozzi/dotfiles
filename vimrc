@@ -212,6 +212,17 @@ function! StripWhitespace()
 	call setreg('/', old_query)
 endfunction
 nnoremap <leader>ss :call StripWhitespace()<cr>
+" restore cursor position
+function! ResCur()
+  if line("'\"") <= line("$")
+    normal! g`"
+    return 1
+  endif
+endfunction
+augroup resCur
+  autocmd!
+  autocmd BufWinEnter * call ResCur()
+augroup END
 " comment / uncomment selection
 vnoremap <leader>c :s/^/#/<cr>:let @/ = ""<cr>
 vnoremap <leader>C :s/^#//<cr>:let @/ = ""<cr>
