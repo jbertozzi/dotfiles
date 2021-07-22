@@ -212,6 +212,17 @@ function! StripWhitespace()
 	call setreg('/', old_query)
 endfunction
 nnoremap <leader>ss :call StripWhitespace()<cr>
+" restore cursor position
+function! ResCur()
+  if line("'\"") <= line("$")
+    normal! g`"
+    return 1
+  endif
+endfunction
+augroup resCur
+  autocmd!
+  autocmd BufWinEnter * call ResCur()
+augroup END
 " comment / uncomment selection
 vnoremap <leader>c :s/^/#/<cr>:let @/ = ""<cr>
 vnoremap <leader>C :s/^#//<cr>:let @/ = ""<cr>
@@ -272,3 +283,5 @@ set completeopt=longest,menuone
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 source ~/.vimrc_local
+" set background=light
+colorscheme solarized8
