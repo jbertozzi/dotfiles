@@ -46,6 +46,11 @@ alias vi=vim
 alias y2j="python3 -c 'import sys, yaml, json; y=yaml.load(sys.stdin.read(), Loader=yaml.FullLoader); print(json.dumps(y, indent=4))'"
 alias jwt="jq -R 'split(\".\") | .[1] | @base64d | fromjson'"
 
+# useful functions
+function get-pem {
+  openssl s_client -connect $1 2>/dev/null </dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
+}
+
 if [ -z "$TMUX" ]; then
   tmux
 fi
