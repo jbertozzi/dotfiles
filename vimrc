@@ -253,10 +253,16 @@ map gf :e <cfile><cr>
 map <leader>cd :cd %:h<cr>
 " replace visual selection by content of unamed register
 vmap r "_dP
-" find our which commit modified the current line
+" find out which commit modified the current line
 nmap <silent><leader>g :call setbufvar(winbufnr(popup_atcursor(split(system("git log -n 1 -L " . line(".") . ",+1:" . expand("%:p")), "\n"), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<cr>
 " append to register a after adding a coma
 noremap <silent> <leader>a :call setreg('A', ',')<CR>"AyW
+" base64 decode visual selection
+vnoremap <leader>bb <esc><c-o>:set paste<cr>gvc<c-r>=system('base64 --decode -w0', @")<cr><esc>
+" base64 encode visual selection
+vnoremap <leader>b <esc><c-o>:set paste<cr>gvc<c-r>=system('base64 -w0', @")<cr><esc>
+" ctrl bacskspace to delete word
+inoremap <c-bs> <c-w>
 " plugins
 " highligth next/previous occurence of pattern
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
@@ -276,4 +282,5 @@ set completeopt=longest,menuone
 " make ctrl-j/k works in popup
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+" source local settings
 source ~/.vimrc_local
