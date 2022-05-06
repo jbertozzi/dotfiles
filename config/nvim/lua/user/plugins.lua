@@ -71,8 +71,15 @@ return packer.startup(function(use)
   use "neovim/nvim-lspconfig" -- enable LSP
   use "williamboman/nvim-lsp-installer" -- simple to use language server installer
 
+  -- Telesscope
+  use 'nvim-telescope/telescope.nvim'
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
   -- vimwikki
   use 'vimwiki/vimwiki'
+
+  -- vim-go
+  use 'fatih/vim-go'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
