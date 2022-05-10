@@ -6,3 +6,10 @@ keymap("", ",", "<Nop>", opts)
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 
+-- next buffer
+keymap("n", "<tab>", ":bnext<cr>", opts)
+-- previous buffer
+keymap("n", "<s-tab>", ":bprevious<cr>", opts)
+-- close buffer
+keymap("n", "<leader>d", ":bd<cr>", opts)
+
