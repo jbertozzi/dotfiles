@@ -5,8 +5,9 @@ require "user.options"
 require "user.plugins"
 require "user.vimwikki"
 require "user.telescope"
+require "user.gitsigns"
 
---todo: move to lua/user/mappings
+-- todo: move to lua/user/mappings
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
