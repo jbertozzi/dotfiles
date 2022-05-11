@@ -72,12 +72,22 @@ return packer.startup(function(use)
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   -- LSP
-  use "neovim/nvim-lspconfig" -- enable LSP
-  use "williamboman/nvim-lsp-installer" -- simple to use language server installer
-
-  -- Telesscope
-  use 'nvim-telescope/telescope.nvim'
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use {
+    "williamboman/nvim-lsp-installer",
+    {
+      "neovim/nvim-lspconfig",
+      config = function()
+        require("nvim-lsp-installer").setup ({
+          ensure_installed = { "gopls", "sumneko_lua", "pyright" },
+          automatic_installation = true
+        })
+        local lspconfig = require("lspconfig")
+        lspconfig.gopls.setup {}
+        lspconfig.sumneko_lua.setup {}
+        lspconfig.pyright.setup {}
+      end
+    }
+  }
 
   -- vimwikki
   use 'vimwiki/vimwiki'
