@@ -85,6 +85,7 @@ return packer.startup(function(use)
         lspconfig.gopls.setup {}
         lspconfig.sumneko_lua.setup {}
         lspconfig.pyright.setup {}
+        lspconfig.ansiblels.setup {}
       end
     }
   }
