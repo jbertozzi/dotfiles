@@ -76,6 +76,9 @@ if [ $(command -v kubectl) ]; then
   if [ $(command -v kubectx) ]; then
     alias kx=kubectx
   fi
+  if [ $(command -v kubens) ]; then
+    alias kx=kubens
+  fi
   # https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh
   if [ -f ~/.kube-ps1.sh ]; then
     source ~/.kube-ps1.sh
