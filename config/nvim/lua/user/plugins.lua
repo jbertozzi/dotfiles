@@ -45,6 +45,8 @@ return packer.startup(function(use)
   use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim" -- Useful lua functions used by lots of plugins
 
+  --use 'neovim/nvim-lspconfig'
+
   -- cmp plugins
   use "hrsh7th/nvim-cmp" -- The completion plugin
   use "hrsh7th/cmp-buffer" -- buffer completions
@@ -55,7 +57,8 @@ return packer.startup(function(use)
   use "hrsh7th/cmp-nvim-lua"
 
   -- colorscheme
-  use 'sainnhe/everforest'
+--  use 'sainnhe/everforest'
+  use "EdenEast/nightfox.nvim"
 
   -- snippets
   use "L3MON4D3/LuaSnip" --snippet engine
@@ -76,23 +79,8 @@ return packer.startup(function(use)
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   -- LSP
-  use {
-    "williamboman/nvim-lsp-installer",
-    {
-      "neovim/nvim-lspconfig",
-      config = function()
-        require("nvim-lsp-installer").setup ({
-          ensure_installed = { "gopls", "sumneko_lua", "pyright" },
-          automatic_installation = true
-        })
-        local lspconfig = require("lspconfig")
-        lspconfig.gopls.setup {}
-        lspconfig.sumneko_lua.setup {}
-        lspconfig.pyright.setup {}
-        lspconfig.ansiblels.setup {}
-      end
-    }
-  }
+  use "neovim/nvim-lspconfig"
+  use "williamboman/nvim-lsp-installer"
 
   -- vimwikki
   use 'vimwiki/vimwiki'
