@@ -34,7 +34,7 @@ vim.opt.scrolloff = 8                           -- is one of my fav
 vim.opt.sidescrolloff = 8
 
 vim.opt.shortmess:append "c"
-vim.cmd [[ colorscheme everforest ]]
+vim.cmd [[ colorscheme terafox ]]
 vim.cmd "set whichwrap+=<,>,[,],h,l"
 vim.cmd [[set iskeyword+=-]]
 vim.cmd [[ autocmd BufReadPost *
