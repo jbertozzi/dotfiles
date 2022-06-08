@@ -13,5 +13,6 @@ keymap("n", "<s-tab>", ":bprevious<cr>", opts)
 keymap("n", "<leader>d", ":bd<cr>", opts)
 -- populate quickfix list from gitsigns
 -- keymap("n", "<leader>q", gs.setqflist(target=0, opts = {open = false}<cr>, opts)
+keymap("n", "<leader>Q", ":cclose<cr>", opts)
 keymap("n", "<c-n>", ":cn<cr>", opts)
 keymap("n", "<c-p>", ":cp<cr>", opts)
