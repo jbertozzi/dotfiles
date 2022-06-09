@@ -11,6 +11,9 @@ keymap("n", "<tab>", ":bnext<cr>", opts)
 keymap("n", "<s-tab>", ":bprevious<cr>", opts)
 -- close buffer
 keymap("n", "<leader>d", ":bd<cr>", opts)
+keymap("n", "yy",'"+yy',  opts)
+keymap("v", "yy",'"+yy',  opts)
+
 -- populate quickfix list from gitsigns
 -- keymap("n", "<leader>q", gs.setqflist(target=0, opts = {open = false}<cr>, opts)
 keymap("n", "<leader>Q", ":cclose<cr>", opts)
