@@ -1,5 +1,20 @@
 vim.opt.backup = false                          -- creates a backup file
---vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
+vim.cmd [[ if has('wsl')
+    let g:clipboard = {
+    \   'name': 'win+tmux',
+    \   'copy': {
+    \      '+': ['win32yank.exe', '-i' ],
+    \      '*': ['tmux', 'load-buffer', '-'],
+    \    },
+    \   'paste': {
+    \      '+': ['win32yank.exe', '-o' ],
+    \      '*': ['tmux', 'save-buffer', '-'],
+    \   },
+    \   'cache_enabled': 0,
+    \ }
+    endif
+    ]]
+-- vim.opt.clipboard = "+unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 2                           -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
@@ -41,3 +56,5 @@ vim.cmd [[ autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal g`\"" |
     \ endif ]]
+
+vim.cmd [[ autocmd FileType yaml.ansible setlocal keywordprg=ansible-doc ]]
