@@ -86,6 +86,9 @@ return packer.startup(function(use)
   -- vimwikki
   use 'vimwiki/vimwiki'
 
+  -- vim-fugitive
+  use 'tpope/vim-fugitive'
+
   -- vim-go
   use 'fatih/vim-go'
 
