@@ -5,7 +5,7 @@ end
 
 local lspconfig = require("lspconfig")
 
-local servers = { "gopls", "sumneko_lua", "pyright", "ansiblels" }
+local servers = { "gopls", "sumneko_lua", "pyright", "ansiblels", "terraformls", "tflint", "yamlls" }
 
 lsp_installer.setup {
 	ensure_installed = servers

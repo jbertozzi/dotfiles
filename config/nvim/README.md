@@ -2,5 +2,5 @@
 
 ```
 :PackerSync
-:LspInstall pyright ansiblels remark_ls gopls
+:LspInstall goplsg sumneko_lua pyright ansiblels terraformls tflint yamlls
 ```
