@@ -21,6 +21,10 @@ treesitercontext.setup{
              'switch',
              'case',
         },
+        yaml = {
+          "block_mapping_pair",
+          "block_sequence_item",
+        },
         -- Example for a specific filetype.
         -- If a pattern is missing, *open a PR* so everyone can benefit.
         --   rust = {

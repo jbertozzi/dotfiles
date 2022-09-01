@@ -15,7 +15,7 @@ keymap("n", "yy",'"+yy',  opts)
 keymap("v", "yy",'"+yy',  opts)
 
 -- populacte loclist from diagnostics
-keymap("n", "<leader>?", ":lua vim.lsp.diagnostic.set_loclist()<cr>", opts)
+keymap("n", "<leader>?", ":lua vim.diagnostic.setloclist()<cr>", opts)
 
 -- populate quickfix list from gitsigns
 -- keymap("n", "<leader>q", gs.setqflist(target=0, opts = {open = false}<cr>, opts)

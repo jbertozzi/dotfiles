@@ -3,6 +3,10 @@ if not status_ok then
   return
 end
 
+if not status_ok then
+  return
+end
+
 configs.setup {
   ensure_installed = {"bash","go", "python", "html", "json", "lua", "make", "php", "vim", "yaml" }, -- "all" (parsers with maintainers), or a list of languages
   sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
