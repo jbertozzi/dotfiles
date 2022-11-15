@@ -81,7 +81,8 @@ return packer.startup(function(use)
 
   -- LSP
   use "neovim/nvim-lspconfig"
-  use "williamboman/nvim-lsp-installer"
+  use 'williamboman/mason.nvim'
+  use 'williamboman/mason-lspconfig.nvim'
 
   -- vimwikki
   use 'vimwiki/vimwiki'
@@ -100,6 +101,9 @@ return packer.startup(function(use)
 
   -- which-key
   use 'folke/which-key.nvim'
+
+  -- null-ls
+  use { "jose-elias-alvarez/null-ls.nvim" }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

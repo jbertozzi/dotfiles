@@ -11,8 +11,8 @@ keymap("n", "<tab>", ":bnext<cr>", opts)
 keymap("n", "<s-tab>", ":bprevious<cr>", opts)
 -- close buffer
 keymap("n", "<leader>d", ":bd<cr>", opts)
-keymap("n", "yy",'"+yy',  opts)
-keymap("v", "yy",'"+yy',  opts)
+keymap("n", "yy", '"+yy', opts)
+keymap("v", "yy", '"+yy', opts)
 
 -- populacte loclist from diagnostics
 keymap("n", "<leader>?", ":lua vim.diagnostic.setloclist()<cr>", opts)
@@ -29,3 +29,7 @@ keymap("n", "<leader>h", ":0Gllog!<cr>", opts)
 
 -- gf create the file under the cursor if it doesn't exist
 keymap("n", "gf", ":e <cfile><cr>", opts)
+
+-- format file using null-ls
+-- vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, { desc = "Format file with LSP" })
+keymap("n", "fff", ":lua vim.lsp.buf.format { async = false }<cr>", opts)
