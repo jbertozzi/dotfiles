@@ -26,3 +26,6 @@ keymap("n", "<c-p>", ":lprevious<cr>", opts)
 
 -- load history of a file in location list
 keymap("n", "<leader>h", ":0Gllog!<cr>", opts)
+
+-- gf create the file under the cursor if it doesn't exist
+keymap("n", "gf", ":e <cfile><cr>", opts)
