@@ -47,6 +47,7 @@ vim.opt.signcolumn = "yes"                      -- always show the sign column, 
 vim.opt.wrap = true                             -- display lines as one long line
 vim.opt.scrolloff = 8                           -- is one of my fav
 vim.opt.sidescrolloff = 8
+vim.opt.mouse = ""
 
 vim.opt.shortmess:append "c"
 vim.cmd [[ colorscheme terafox ]]
