@@ -7,8 +7,8 @@ require "user.vimwikki"
 require "user.telescope"
 require "user.gitsigns"
 require "user.lsp"
-require "user.treesitter"
-require "user.treesittercontext"
+--require "user.treesitter"
+--require "user.treesittercontext"
 require "user.autopairs"
 
 -- todo: move to lua/user/mappings
