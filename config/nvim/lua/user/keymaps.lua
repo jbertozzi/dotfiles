@@ -11,8 +11,8 @@ keymap("n", "<tab>", ":bnext<cr>", opts)
 keymap("n", "<s-tab>", ":bprevious<cr>", opts)
 -- close buffer
 keymap("n", "<leader>d", ":bd<cr>", opts)
-keymap("n", "yy", '"+yy', opts)
-keymap("v", "yy", '"+yy', opts)
+-- keymap("n", "yy", '"+yy', opts)
+-- keymap("v", "yy", '"+yy', opts)
 
 -- populacte loclist from diagnostics
 keymap("n", "<leader>?", ":lua vim.diagnostic.setloclist()<cr>", opts)
