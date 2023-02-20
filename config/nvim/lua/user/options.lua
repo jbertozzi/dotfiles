@@ -48,7 +48,7 @@ vim.opt.wrap = true                             -- display lines as one long lin
 vim.opt.scrolloff = 8                           -- is one of my fav
 vim.opt.sidescrolloff = 8
 vim.opt.mouse = ""
-
+vim.opt.clipboard = "unnamedplus"
 vim.opt.shortmess:append "c"
 vim.cmd [[ colorscheme terafox ]]
 vim.cmd "set whichwrap+=<,>,[,],h,l"
@@ -58,4 +58,18 @@ vim.cmd [[ autocmd BufReadPost *
     \   exe "normal g`\"" |
     \ endif ]]
 
+vim.g.ansible_vault_password_file = "/home/rtj/.vault"
 vim.cmd [[ autocmd FileType yaml.ansible setlocal keywordprg=ansible-doc ]]
+vim.cmd [[ let g:clipboard = {
+                \   'name': 'WslClipboard',
+                \   'copy': {
+                \      '+': 'clip.exe',
+                \      '*': 'clip.exe',
+                \    },
+                \   'paste': {
+                \      '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+                \      '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+                \   },
+                \   'cache_enabled': 0,
+                \ }
+  ]]
