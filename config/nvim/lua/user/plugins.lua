@@ -103,6 +103,12 @@ return packer.startup(function(use)
   -- null-ls
   use { "jose-elias-alvarez/null-ls.nvim" }
 
+  -- ansible-vault helper
+  use 'arouene/vim-ansible-vault'
+
+  -- decrypt gpg encrytped file on the fly
+  use { 'jamessan/vim-gnupg' }
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then
