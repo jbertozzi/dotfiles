@@ -31,19 +31,21 @@ export PS1="${c_cyan}\u@\h:${c_yell}\w ${c_reset}\$ "
 # make <C-s> works in bash. Can also be achieved in PuTTY as well:
 # Connection->SSH->TTY -> Mode -> IXION = 0
 stty -ixon
-
+HOSTNAME=$(hostname -s)
+export TERM="xterm-256color"
 case $TERM in
   xterm*|vte*)
     PROMPT_COMMAND='history -a; printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
     ;;
   screen*)
-    PROMPT_COMMAND='history -a; printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
+    PROMPT_COMMAND='history -a; printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
     ;;
 esac
 
 # aliases
 alias vi=vim
 alias y2j="python3 -c 'import sys, yaml, json; y=yaml.load(sys.stdin.read(), Loader=yaml.FullLoader); print(json.dumps(y, indent=4))'"
+alias j2y="python3 -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))'"
 alias jwt="jq -R 'split(\".\") | .[1] | @base64d | fromjson'"
 
 # useful functions
@@ -51,12 +53,8 @@ function get-pem {
   openssl s_client -connect $1 2>/dev/null </dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
 }
 
-if [ -z "$TMUX" ]; then
-  tmux
-fi
-
 # bash command timer
-# https://raw.githubusercontent.com/jichu4n/bash-command-timer/master/bash_command_timer.sh
+# curl -o .bash_command_timer.sh https://raw.githubusercontent.com/jichu4n/bash-command-timer/master/bash_command_timer.sh
 if [ -e ~/.bash_command_timer.sh ] ; then
   source ~/.bash_command_timer.sh
   export BCT_TIME_FORMAT="%Y/%m/%d %H:%M:%S"
@@ -69,7 +67,9 @@ function get_cluster_short() {
 
 if [ $(command -v kubectl) ]; then
   alias k=kubectl
-  alias kaf='kubectl apply -f'
+  if [ ! $(command -v kaf) ]; then
+    alias kaf='kubectl apply -f'
+  fi
   source <(kubectl completion bash)
   complete -F __start_kubectl k
   export do='--dry-run=client -oyaml'
@@ -77,9 +77,9 @@ if [ $(command -v kubectl) ]; then
     alias kx=kubectx
   fi
   if [ $(command -v kubens) ]; then
-    alias kx=kubens
+    alias ks=kubens
   fi
-  # https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh
+  # curl -o .kube-ps1.sh https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh
   if [ -f ~/.kube-ps1.sh ]; then
     source ~/.kube-ps1.sh
     KUBE_PS1_ENABLED=off
@@ -90,11 +90,34 @@ if [ $(command -v kubectl) ]; then
     export KUBE_PS1_SYMBOL_ENABLE=false
     export KUBE_PS1_CTX_COLOR=magenta
     export KUBE_PS1_NS_COLOR=green
-    export PS1="${c_cyan}\u@\h:${c_yell}\w ${c_reset}\$(kube_ps1)\$ "
+    export PS1="${c_cyan}\u@${HOSTNAME,,}:${c_yell}\w ${c_reset}\$(kube_ps1)\$ "
   fi
 fi
 
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude=.git "" $(git rev-parse --show-toplevel 2> /dev/null) |xargs realpath --relative-to=$(pwd)'
+
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+
+export GPG_TTY=`tty`
+gpg-connect-agent updatestartuptty /bye >/dev/null
+
+export RIPGREP_CONFIG_PATH=~/.ripgreprc
+export TMUX_BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
+
 # local config
 if [ -f ~/.bash_local ]; then
-  source ~/.bash_local
+   source ~/.bash_local
+fi
+
+# secret config
+if [ -f ~/.bash_secret.gpg ]; then
+   source <(gpg --decrypt ~/.bash_secret.gpg)
+fi
+
+# start tmux after loading all environement variables
+if [ -z "$TMUX" ]; then
+  tmux
 fi
