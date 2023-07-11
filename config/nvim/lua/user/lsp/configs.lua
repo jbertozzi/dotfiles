@@ -12,7 +12,7 @@ end
 
 mason_lspconfig.setup()
 
-local servers = { "gopls", "sumneko_lua", "pyright", "ansiblels", "terraformls", "tflint", "yamlls" }
+local servers = { "gopls", "lua_ls", "pyright", "ansiblels", "terraformls", "tflint", "yamlls" }
 
 mason_lspconfig.setup {
 	ensure_installed = servers
