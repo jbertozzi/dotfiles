@@ -41,77 +41,74 @@ packer.init {
 -- Install your plugins here
 return packer.startup(function(use)
 
-  use "wbthomason/packer.nvim" -- Have packer manage itself
-  use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
-  use "nvim-lua/plenary.nvim" -- Useful lua functions used by lots of plugins
-  use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
+local plugins = {
+
+  "nvim-lua/popup.nvim", -- An implementation of the Popup API from vim in Neovim
+  "nvim-lua/plenary.nvim", -- Useful lua functions used by lots of plugins
+
+  "windwp/nvim-autopairs", -- Autopairs, integrates with both cmp and treesitter
 
   -- cmp plugins
-  use "hrsh7th/nvim-cmp" -- The completion plugin
-  use "hrsh7th/cmp-buffer" -- buffer completions
-  use "hrsh7th/cmp-path" -- path completions
-  use "hrsh7th/cmp-cmdline" -- cmdline completions
-  use "saadparwaiz1/cmp_luasnip" -- snippet completions
-  use "hrsh7th/cmp-nvim-lsp"
-  use "hrsh7th/cmp-nvim-lua"
+  "hrsh7th/nvim-cmp", -- The completion plugin
+  "hrsh7th/cmp-buffer", -- buffer completions
+  "hrsh7th/cmp-path", -- path completions
+  "hrsh7th/cmp-cmdline", -- cmdline completions
+  "saadparwaiz1/cmp_luasnip", -- snippet completions
+  "hrsh7th/cmp-nvim-lsp",
+  "hrsh7th/cmp-nvim-lua",
 
   -- colorscheme
---  use 'sainnhe/everforest'
-  use "EdenEast/nightfox.nvim"
+--  'sainnhe/everforest'
+  "EdenEast/nightfox.nvim",
 
   -- snippets
-  use "L3MON4D3/LuaSnip" --snippet engine
-  use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
+  "L3MON4D3/LuaSnip", --snippet engine
+  "rafamadriz/friendly-snippets", -- a bunch of snippets to use
 
   -- lualine
-  use {
+  {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    dependencies = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
 
   -- Treesitter
-  use 'nvim-treesitter/nvim-treesitter'
-  use 'nvim-treesitter/nvim-treesitter-context'
+  'nvim-treesitter/nvim-treesitter'
+  'nvim-treesitter/nvim-treesitter-context'
 
   -- Telescope
-  use 'nvim-telescope/telescope.nvim'
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  'nvim-telescope/telescope.nvim'
+  {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   -- LSP
-  use "neovim/nvim-lspconfig"
-  use 'williamboman/mason.nvim'
-  use 'williamboman/mason-lspconfig.nvim'
+  "neovim/nvim-lspconfig",
+  'williamboman/mason.nvim'
+  'williamboman/mason-lspconfig.nvim'
 
   -- vimwikki
-  use 'vimwiki/vimwiki'
+  'vimwiki/vimwiki'
 
   -- vim-fugitive
-  use 'tpope/vim-fugitive'
+  'tpope/vim-fugitive'
 
   -- vim-go
-  use 'fatih/vim-go'
+  'fatih/vim-go'
 
   -- git
-  use "lewis6991/gitsigns.nvim"
+  "lewis6991/gitsigns.nvim",
 
   -- quick-scope
-  use 'unblevable/quick-scope'
+  'unblevable/quick-scope',
 
   -- which-key
-  use 'folke/which-key.nvim'
+  'folke/which-key.nvim',
 
   -- null-ls
-  use { "jose-elias-alvarez/null-ls.nvim" }
+  "jose-elias-alvarez/null-ls.nvim",
 
   -- ansible-vault helper
-  use 'arouene/vim-ansible-vault'
+  'arouene/vim-ansible-vault',
 
   -- decrypt gpg encrytped file on the fly
-  use { 'jamessan/vim-gnupg' }
-
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if PACKER_BOOTSTRAP then
-    require("packer").sync()
-  end
-end)
+  'jamessan/vim-gnupg',
+  'gbprod/yanky.nvim'
+}
