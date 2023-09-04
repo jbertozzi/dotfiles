@@ -1,0 +1,5 @@
+require("config.yanky")
+require("config.mason")
+require("config.lualine")
+require("config.lsp")
+require("config.cmp")
