@@ -2,6 +2,33 @@ local cmp = require("cmp")
 local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
+local kind_icons = {
+  Text = "",
+  Method = "m",
+  Function = "",
+  Constructor = "",
+  Field = "",
+  Variable = "",
+  Class = "",
+  Interface = "",
+  Module = "",
+  Property = "",
+  Unit = "",
+  Value = "",
+  Enum = "",
+  Keyword = "",
+  Snippet = "",
+  Color = "",
+  File = "",
+  Reference = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
+  Struct = "",
+  Event = "",
+  Operator = "",
+  TypeParameter = "",
+}
 
 cmp.setup({
   snippet = {
@@ -12,6 +39,21 @@ cmp.setup({
   window = {
     -- completion = cmp.config.window.bordered(),
     -- documentation = cmp.config.window.bordered(),
+  },
+  formatting = {
+    fields = { "kind", "abbr", "menu" },
+    format = function(entry, vim_item)
+      -- Kind icons
+      vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+      -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+      vim_item.menu = ({
+        nvim_lsp = "[LSP]",
+        luasnip = "[Snippet]",
+        buffer = "[Buffer]",
+        path = "[Path]",
+      })[entry.source.name]
+      return vim_item
+    end,
   },
   mapping = cmp.mapping.preset.insert({
     ['<C-j>'] = cmp.mapping({
@@ -68,7 +110,6 @@ cmp.setup({
     { name = "luasnip" },
     { name = "buffer" },
     { name = "path" },
-  }, {
     { name = 'buffer' },
   })
 })
