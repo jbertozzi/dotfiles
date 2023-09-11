@@ -50,7 +50,7 @@ cmp.setup({
     -- ["<C-j>"] = cmp.mapping.select_next_item(),
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<CR>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<C-e>'] = cmp.mapping({ i = cmp.mapping.close(), c = cmp.mapping.close() }),
     --['<CR>'] = cmp.mapping({
     --        i = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),

@@ -1,2 +1,1 @@
-require("core")
-require("config")
+/home/jbertozzi/.dotfiles/./config/nvim/init.lua
