@@ -33,3 +33,5 @@ keymap("n", "gf", ":e <cfile><cr>", opts)
 -- format file using null-ls
 -- vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, { desc = "Format file with LSP" })
 keymap("n", "fff", ":lua vim.lsp.buf.format { async = false }<cr>", opts)
+
+
