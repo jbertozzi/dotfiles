@@ -3,6 +3,7 @@ vim.opt.backup = false                          -- does not create a backup file
 vim.opt.cmdheight = 2                           -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
+vim.opt.modifiable = true
 vim.opt.fileencoding = "utf-8"                  -- the encoding written to a file
 vim.opt.hlsearch = true                         -- highlight all matches on previous search pattern
 vim.opt.ignorecase = true                       -- ignore case in search patterns
@@ -44,7 +45,8 @@ vim.cmd [[ autocmd BufReadPost *
 
 vim.g.ansible_vault_password_file = "/home/rtj/.vault"
 vim.cmd [[ autocmd FileType yaml.ansible setlocal keywordprg=ansible-doc ]]
-vim.cmd [[ let g:clipboard = {
+vim.cmd [[ if has('wsl')
+             let g:clipboard = {
                 \   'name': 'WslClipboard',
                 \   'copy': {
                 \      '+': 'clip.exe',
@@ -56,4 +58,5 @@ vim.cmd [[ let g:clipboard = {
                 \   },
                 \   'cache_enabled': 0,
                 \ }
+               endif
   ]]

@@ -21,5 +21,16 @@ return {
     dependencies = { 'kyazdani42/nvim-web-devicons', opt = true }
   },
   "L3MON4D3/LuaSnip",
-  "arouene/vim-ansible-vault"
+  "arouene/vim-ansible-vault",
+  {
+    'goolord/alpha-nvim',
+    config = function ()
+      require'alpha'.setup(require'alpha.themes.dashboard'.config)
+    end
+  },
+  "ahmedkhalf/project.nvim",
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" }
+  }
 }
