@@ -44,19 +44,19 @@ vim.cmd [[ autocmd BufReadPost *
     \ endif ]]
 
 vim.g.ansible_vault_password_file = "/home/rtj/.vault"
-vim.cmd [[ autocmd FileType yaml.ansible setlocal keywordprg=ansible-doc ]]
-vim.cmd [[ if has('wsl')
-             let g:clipboard = {
-                \   'name': 'WslClipboard',
-                \   'copy': {
-                \      '+': 'clip.exe',
-                \      '*': 'clip.exe',
-                \    },
-                \   'paste': {
-                \      '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-                \      '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-                \   },
-                \   'cache_enabled': 0,
-                \ }
-               endif
-  ]]
+--vim.cmd [[ autocmd FileType yaml.ansible setlocal keywordprg=ansible-doc ]]
+--vim.cmd [[ if has('wsl')
+--             let g:clipboard = {
+--                \   'name': 'WslClipboard',
+--                \   'copy': {
+--                \      '+': 'clip.exe',
+--                \      '*': 'clip.exe',
+--                \    },
+--                \   'paste': {
+--                \      '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+--                \      '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+--                \   },
+--                \   'cache_enabled': 0,
+--                \ }
+--               endif
+--  ]]
