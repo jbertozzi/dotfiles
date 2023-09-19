@@ -22,11 +22,38 @@ telescope.setup {
       case_mode = "smart_case",
     }
   },
+
+  pickers = {
+    find_files = {
+      find_command = {
+        'fd',
+        '--type',
+        'f',
+        '--color=never',
+        '--hidden',
+        '--follow',
+        '-E',
+        '.git/*'
+      },
+    },
+  },
+
   defaults = {
 
     prompt_prefix = " ",
     selection_caret = " ",
     path_display = { "smart" },
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+      '--hidden',
+      '-u'
+    },
 
     mappings = {
       i = {
@@ -55,8 +82,7 @@ telescope.setup {
 
         ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
         ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
-        ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
-        ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+        ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
         ["<C-l>"] = actions.complete_tag,
         ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
       },

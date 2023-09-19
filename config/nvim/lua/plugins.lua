@@ -18,6 +18,7 @@ return {
   "L3MON4D3/LuaSnip",
   "arouene/vim-ansible-vault",
   "ahmedkhalf/project.nvim",
+  "ThePrimeagen/harpoon",
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   {
     'nvim-lualine/lualine.nvim',

@@ -94,6 +94,11 @@ if [ $(command -v kubectl) ]; then
   fi
 fi
 
+# zoxide
+if [ $(command -v zoxide) ]; then
+  eval "$(zoxide init bash)"
+fi
+
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude=.git "" $(git rev-parse --show-toplevel 2> /dev/null) |xargs realpath --relative-to=$(pwd)'
 
 unset SSH_AGENT_PID
@@ -114,7 +119,7 @@ fi
 
 # secret config
 if [ -f ~/.bash_secret.gpg ]; then
-   source <(gpg --decrypt ~/.bash_secret.gpg)
+   source <(gpg --decrypt ~/.bash_secret.gpg &> /dev/null)
 fi
 
 # start tmux after loading all environement variables

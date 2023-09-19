@@ -34,6 +34,12 @@ keymap("n", "gf", ":e <cfile><cr>", opts)
 -- vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, { desc = "Format file with LSP" })
 keymap("n", "fff", ":lua vim.lsp.buf.format { async = false }<cr>", opts)
 
+keymap("t", "<Esc>", "<C-\\><C-n>", opts)
+keymap("n", "<leader>ha", ":lua require('harpoon.mark').add_file()<cr>", opts)
+keymap("n", "<leader>hm", ":lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
+keymap("n", "<leader>hn", ":lua require('harpoon.ui').nav_next()<cr>", opts)
+keymap("n", "<leader>hp", ":lua require('harpoon.ui').nav_prev()<cr>", opts)
+
 -- toggle the quickfixlist
 local toggle_qf = function()
   local qf_exists = false
