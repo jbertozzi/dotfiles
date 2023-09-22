@@ -119,7 +119,7 @@ fi
 
 # secret config
 if [ -f ~/.bash_secret.gpg ]; then
-   source <(gpg --decrypt ~/.bash_secret.gpg &> /dev/null)
+   source <(gpg --decrypt ~/.bash_secret.gpg)
 fi
 
 # start tmux after loading all environement variables
