@@ -94,6 +94,26 @@ if [ $(command -v kubectl) ]; then
   fi
 fi
 
+# deal with environments
+function e() {
+  if [ -f ~/secrets.json.gpg ]; then
+    json=$(gpg --quiet --decrypt ~/secrets.json.gpg &1> /dev/null)
+    if [[ $# == 0 ]]; then
+      env=$(jq -r '. | to_entries[] | .key' <<< "$json" | fzf)
+    else
+      env=$1
+    fi
+    choice=$(jq -r --arg env "$env" '. | to_entries[] | select(.key==$env) | .value | to_entries[] | .key' <<< $json | fzf)
+    declare -A vars="($(jq -r --arg env $env --arg choice $choice '.[$env][$choice] | to_entries[] | "[" + .key + "]=" + "\"" + .value +"\""' <<< "$json"))"
+    for key in "${!vars[@]}"
+    do
+      export "$key=${vars[$key]}"
+    done
+  else
+    printf "'~/secrets.json.gpg' not found\n"
+  fi
+}
+
 # zoxide
 if [ $(command -v zoxide) ]; then
   eval "$(zoxide init bash)"
@@ -118,9 +138,9 @@ if [ -f ~/.bash_local ]; then
 fi
 
 # secret config
-if [ -f ~/.bash_secret.gpg ]; then
-   source <(gpg --decrypt ~/.bash_secret.gpg)
-fi
+#if [ -f ~/.bash_secret.gpg ]; then
+#   source <(gpg --quiet --decrypt ~/.bash_secret.gpg)
+#fi
 
 # start tmux after loading all environement variables
 if [ -z "$TMUX" ]; then
