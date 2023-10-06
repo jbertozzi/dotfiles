@@ -19,6 +19,9 @@ return {
   "arouene/vim-ansible-vault",
   "ahmedkhalf/project.nvim",
   "ThePrimeagen/harpoon",
+  "jamessan/vim-gnupg",
+  "vimwiki/vimwiki",
+  "karb94/neoscroll.nvim",
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   {
     'nvim-lualine/lualine.nvim',
@@ -40,5 +43,8 @@ return {
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
+  },
+  {
+    "nvim-treesitter/nvim-treesitter", build = ":TSUpdate"
   }
 }
