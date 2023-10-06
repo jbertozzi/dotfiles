@@ -44,6 +44,7 @@ esac
 
 # aliases
 alias vi=vim
+alias EDITOR=nvim
 alias y2j="python3 -c 'import sys, yaml, json; y=yaml.load(sys.stdin.read(), Loader=yaml.FullLoader); print(json.dumps(y, indent=4))'"
 alias j2y="python3 -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))'"
 alias jwt="jq -R 'split(\".\") | .[1] | @base64d | fromjson'"
@@ -96,8 +97,8 @@ fi
 
 # deal with environments
 function e() {
-  if [ -f ~/secrets.json.gpg ]; then
-    json=$(gpg --quiet --decrypt ~/secrets.json.gpg &1> /dev/null)
+  if [ -f ~/.secrets.json.gpg ]; then
+    json=$(gpg --quiet --decrypt ~/.secrets.json.gpg &1> /dev/null)
     if [[ $# == 0 ]]; then
       env=$(jq -r '. | to_entries[] | .key' <<< "$json" | fzf)
     else
@@ -107,11 +108,16 @@ function e() {
     declare -A vars="($(jq -r --arg env $env --arg choice $choice '.[$env][$choice] | to_entries[] | "[" + .key + "]=" + "\"" + .value +"\""' <<< "$json"))"
     for key in "${!vars[@]}"
     do
-      export "$key=${vars[$key]}"
+      if [ "$key" == "cmd" ]; then
+        $(${vars[$key]})
+      else
+        export "$key=${vars[$key]}"
+      fi
     done
   else
-    printf "'~/secrets.json.gpg' not found\n"
+    printf "'~/.secrets.json.gpg' not found\n"
   fi
+  printf "environment set: %s/%s" "${env}" "${choice}"
 }
 
 # zoxide
