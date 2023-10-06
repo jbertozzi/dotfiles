@@ -4,4 +4,7 @@ require'nvim-treesitter.configs'.setup {
   highlight = { enable = true },
   indent = { enable = true },
 }
+if vim.fn.exists("+winbar") == 1 then
+  vim.opt_local.winbar = "%{%v:lua.require'jsonpath'.get()%}"
+end
 

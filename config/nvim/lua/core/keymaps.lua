@@ -1,11 +1,14 @@
 local opts = { noremap = true, silent = true }
 local term_opts = { silent = true }
 local keymap = vim.api.nvim_set_keymap
+
 -- remap , as leader key
 keymap("", ",", "<Nop>", opts)
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 -- next buffer
+--local tmp = add_to_default_opts({ desc = "next buffer"})
+
 keymap("n", "<tab>", ":bnext<cr>", opts)
 -- previous buffer
 keymap("n", "<s-tab>", ":bprevious<cr>", opts)
@@ -58,3 +61,9 @@ local toggle_qf = function()
 end
 
 vim.keymap.set('n', '<c-q>', toggle_qf, {})
+
+keymap("n", "<leader>e", ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR })<cr>", opts)
+
+vim.keymap.set("n", "<c-j>", function()
+  vim.fn.setreg("+", require("jsonpath").get())
+end, { desc = "copy json path", buffer = true })

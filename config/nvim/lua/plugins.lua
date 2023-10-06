@@ -22,6 +22,8 @@ return {
   "jamessan/vim-gnupg",
   "vimwiki/vimwiki",
   "karb94/neoscroll.nvim",
+  "nvim-treesitter/nvim-treesitter-context",
+  "phelipetls/jsonpath.nvim",
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   {
     'nvim-lualine/lualine.nvim',
