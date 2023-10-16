@@ -125,6 +125,7 @@ function e() {
   if [ ! -z "$executed" ]; then
     printf " (cmd: %s)" "${executed}"
   fi
+  printf "\n"
 }
 
 # zoxide
