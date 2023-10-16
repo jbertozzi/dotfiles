@@ -25,7 +25,7 @@ export HISTSIZE=-1
 export HISTTIMEFORMAT="[%Y/%m/%d %T]"
 export PROMPT_DIRTRIM=2
 export HISTCONTROL=ignorespace
-export EDITOR=vim
+export EDITOR=nvim
 export PS1="${c_cyan}\u@\h:${c_yell}\w ${c_reset}\$ "
 
 # make <C-s> works in bash. Can also be achieved in PuTTY as well:
@@ -44,7 +44,6 @@ esac
 
 # aliases
 alias vi=vim
-alias EDITOR=nvim
 alias y2j="python3 -c 'import sys, yaml, json; y=yaml.load(sys.stdin.read(), Loader=yaml.FullLoader); print(json.dumps(y, indent=4))'"
 alias j2y="python3 -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))'"
 alias jwt="jq -R 'split(\".\") | .[1] | @base64d | fromjson'"
@@ -101,15 +100,20 @@ function e() {
     json=$(gpg --quiet --decrypt ~/.secrets.json.gpg &1> /dev/null)
     if [[ $# == 0 ]]; then
       env=$(jq -r '. | to_entries[] | .key' <<< "$json" | fzf)
+    elif [[ $# == 1 ]]; then
+      env=$1
+      choice=$(jq -r --arg env "$env" '. | to_entries[] | select(.key==$env) | .value | to_entries[] | .key' <<< $json | fzf)
     else
       env=$1
+      choice=$2
     fi
-    choice=$(jq -r --arg env "$env" '. | to_entries[] | select(.key==$env) | .value | to_entries[] | .key' <<< $json | fzf)
     declare -A vars="($(jq -r --arg env $env --arg choice $choice '.[$env][$choice] | to_entries[] | "[" + .key + "]=" + "\"" + .value +"\""' <<< "$json"))"
+    local executed=""
     for key in "${!vars[@]}"
     do
       if [ "$key" == "cmd" ]; then
         $(${vars[$key]})
+        executed="${vars[$key]}"
       else
         export "$key=${vars[$key]}"
       fi
@@ -118,6 +122,9 @@ function e() {
     printf "'~/.secrets.json.gpg' not found\n"
   fi
   printf "environment set: %s/%s" "${env}" "${choice}"
+  if [ ! -z "$executed" ]; then
+    printf " (cmd: %s)" "${executed}"
+  fi
 }
 
 # zoxide
