@@ -100,6 +100,7 @@ function e() {
     json=$(gpg --quiet --decrypt ~/.secrets.json.gpg &1> /dev/null)
     if [[ $# == 0 ]]; then
       env=$(jq -r '. | to_entries[] | .key' <<< "$json" | fzf)
+      choice=$(jq -r --arg env "$env" '. | to_entries[] | select(.key==$env) | .value | to_entries[] | .key' <<< $json | fzf)
     elif [[ $# == 1 ]]; then
       env=$1
       choice=$(jq -r --arg env "$env" '. | to_entries[] | select(.key==$env) | .value | to_entries[] | .key' <<< $json | fzf)
