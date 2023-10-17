@@ -147,6 +147,7 @@ gpg-connect-agent updatestartuptty /bye >/dev/null
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
 export TMUX_BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
 
+export TMUXP_CONFIGDIR=~/.config/tmuxp/
 # local config
 if [ -f ~/.bash_local ]; then
    source ~/.bash_local
