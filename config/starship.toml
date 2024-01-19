@@ -1,0 +1,62 @@
+format = """
+╭─$time\
+$directory\
+$git_branch$git_status\
+$python\
+$golang\
+$kubernetes\
+$cmd_duration
+╰─> 
+"""
+palette = 'jbertozzi'
+
+[python]
+#style = 'bg:#86BBD8'
+format = '[ $virtualenv]($style)'
+disabled = true
+
+[kubernetes]
+style = "fg:blue"
+format = '[󱃾 $context:$namespace ]($style)'
+disabled = false
+#detect_folders = [ 'cluster-*' ]
+
+[directory]
+style = "fg:yellow"
+format = "[$path ]($style)"
+truncation_length = 2
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "fg:orange"
+format = '[$symbol $branch ]($style)'
+
+[git_status]
+style = "fg:orange"
+format = '([\($all_status$ahead_behind\)]($style) )'
+#format = '[$all_status$ahead_behind ]($style)'
+
+[time]
+disabled = false
+time_format = "%T"
+style = "fg:grey"
+format = '[ $time ]($style)'
+
+[cmd_duration]
+style="fg:white"
+min_time=1_000
+format = '\([$duration]($style)\) '
+
+[palettes.jbertozzi]
+blue = '#87afd7'
+white = '#e4e4e4'
+grey = '#585858'
+orange = '#fca17d'
+yellow = '#cccc00'
