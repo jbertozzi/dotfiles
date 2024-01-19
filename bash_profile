@@ -53,12 +53,38 @@ function get-pem {
   openssl s_client -connect $1 2>/dev/null </dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p'
 }
 
+function checkgit {
+  rc=0
+  [ -z "${1}"] && local current=$(git rev-parse --abbrev-ref HEAD) || local current="${1}"
+  [ -z "${2}"] && local upsteam=$(git rev-parse --abbrev-ref --symbolic-full-name @{u}) || local upsteam="${2}"
+  local ancestor=$(git merge-base "${current}" "${upsteam}")
+  local aref=$(git rev-parse "${current}")
+  local bref=$(git rev-parse "${upsteam}")
+  local 
+  if [[ "${aref}" == "${bref}" ]]; then
+    echo "git status is clean"
+  elif [[  "${aref}" = "${ancestor}" ]]; then
+    echo "git is behind"
+  elif [[  "${bref}" = "${ancestor}" ]]; then
+    echo "git is ahead"
+    rc=1
+  else
+    echo "git diverge"
+    rc=1
+  fi
+  if [[ $(git status --porcelain) ]]; then
+    echo "git local change(s)"
+    rc=1
+  fi
+  
+}
+
 # bash command timer
 # curl -o .bash_command_timer.sh https://raw.githubusercontent.com/jichu4n/bash-command-timer/master/bash_command_timer.sh
-if [ -e ~/.bash_command_timer.sh ] ; then
-  source ~/.bash_command_timer.sh
-  export BCT_TIME_FORMAT="%Y/%m/%d %H:%M:%S"
-fi
+#if [ -e ~/.bash_command_timer.sh ] ; then
+#  source ~/.bash_command_timer.sh
+#  export BCT_TIME_FORMAT="%Y/%m/%d %H:%M:%S"
+#fi
 
 # kubernetes
 function get_cluster_short() {
