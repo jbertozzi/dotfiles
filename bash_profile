@@ -76,7 +76,6 @@ function checkgit {
     echo "git local change(s)"
     rc=1
   fi
-  
 }
 
 # bash command timer
@@ -87,10 +86,6 @@ function checkgit {
 #fi
 
 # kubernetes
-function get_cluster_short() {
-  echo "$1" | cut -d @ -f2
-}
-
 if [ $(command -v kubectl) ]; then
   alias k=kubectl
   if [ ! $(command -v kaf) ]; then
@@ -105,20 +100,23 @@ if [ $(command -v kubectl) ]; then
   if [ $(command -v kubens) ]; then
     alias ks=kubens
   fi
-  # curl -o .kube-ps1.sh https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh
-  if [ -f ~/.kube-ps1.sh ]; then
-    source ~/.kube-ps1.sh
-    KUBE_PS1_ENABLED=off
-    export KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
-    export KUBE_PS1_CTX_COLOR=green
-    export KUBE_PS1_PREFIX="["
-    export KUBE_PS1_SUFFIX="]"
-    export KUBE_PS1_SYMBOL_ENABLE=false
-    export KUBE_PS1_CTX_COLOR=magenta
-    export KUBE_PS1_NS_COLOR=green
-    export PS1="${c_cyan}\u@${HOSTNAME,,}:${c_yell}\w ${c_reset}\$(kube_ps1)\$ "
-  fi
 fi
+
+function kubeon() {
+  if [[ -w ~/.config/starship.toml ]]; then
+    # requires tomcli package
+    tomcli-set .config/starship.toml false kubernetes.disabled
+    tomcli-set .config/starship.toml del kubernetes.detect_folders
+  fi
+}
+
+function kubeoff() {
+  if [[ -w ~/.config/starship.toml ]]; then
+    # requires tomcli package
+    tomcli-set .config/starship.toml true kubernetes.disabled
+    tomcli-set .config/starship.toml list kubernetes.detect_folders 'vars'
+  fi
+}
 
 # deal with environments
 function e() {
