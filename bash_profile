@@ -105,16 +105,16 @@ fi
 function kubeon() {
   if [[ -w ~/.config/starship.toml ]]; then
     # requires tomcli package
-    tomcli-set .config/starship.toml false kubernetes.disabled
-    tomcli-set .config/starship.toml del kubernetes.detect_folders
+    tomcli-set ~/.config/starship.toml false kubernetes.disabled
+    tomcli-set ~/.config/starship.toml del kubernetes.detect_folders
   fi
 }
 
 function kubeoff() {
   if [[ -w ~/.config/starship.toml ]]; then
     # requires tomcli package
-    tomcli-set .config/starship.toml true kubernetes.disabled
-    tomcli-set .config/starship.toml list kubernetes.detect_folders 'vars'
+    tomcli-set ~/.config/starship.toml true kubernetes.disabled
+    tomcli-set ~/.config/starship.toml list kubernetes.detect_folders 'vars'
   fi
 }
 
