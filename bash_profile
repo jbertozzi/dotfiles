@@ -43,7 +43,7 @@ case $TERM in
 esac
 
 # aliases
-alias vi=vim
+alias vi=nvim
 alias y2j="python3 -c 'import sys, yaml, json; y=yaml.load(sys.stdin.read(), Loader=yaml.FullLoader); print(json.dumps(y, indent=4))'"
 alias j2y="python3 -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))'"
 alias jwt="jq -R 'split(\".\") | .[1] | @base64d | fromjson'"
@@ -156,6 +156,11 @@ function e() {
 # zoxide
 if [ $(command -v zoxide) ]; then
   eval "$(zoxide init bash)"
+fi
+
+# starship
+if [ $(command -v starship) ]; then
+  eval "$(starship init bash)"
 fi
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude=.git "" $(git rev-parse --show-toplevel 2> /dev/null) |xargs realpath --relative-to=$(pwd)'
