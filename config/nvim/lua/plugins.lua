@@ -24,6 +24,7 @@ return {
   "karb94/neoscroll.nvim",
   "nvim-treesitter/nvim-treesitter-context",
   "phelipetls/jsonpath.nvim",
+  "sindrets/diffview.nvim",
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   {
     'nvim-lualine/lualine.nvim',
@@ -54,5 +55,9 @@ return {
   },
   {
     "lewis6991/gitsigns.nvim"
-  }
+  },
+  {
+    'numToStr/Comment.nvim',
+    lazy = false,
+  },
 }

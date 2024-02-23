@@ -58,93 +58,31 @@ cmp.setup({
   },
   mapping = cmp.mapping.preset.insert({
     ['<C-j>'] = cmp.mapping({
-            c = function()
-                if cmp.visible() then
-                    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                else
-                    vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
-                end
-            end,
-            i = function(fallback)
-                if cmp.visible() then
-                    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                else
-                    fallback()
-                end
-            end
-        }),
+      c = function(fallback)
+        if cmp.visible() then
+          return cmp.select_next_item()
+        end
+
+        fallback()
+      end,
+    }),
     ['<C-k>'] = cmp.mapping({
-            c = function()
-                if cmp.visible() then
-                    cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-                else
-                    vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
-                end
-            end,
-            i = function(fallback)
-                if cmp.visible() then
-                    cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-                else
-                    fallback()
-                end
-            end
-        }),
-    --["<C-k>"] = cmp.mapping.select_prev_item(),
-    --["<C-j>"] = cmp.mapping.select_next_item(),
+      c = function(fallback)
+        if cmp.visible() then
+          return cmp.select_prev_item()
+        end
+
+        fallback()
+      end,
+    }),
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ["<CR>"] = cmp.mapping({
-      i = function(fallback)
-        if cmp.visible() and cmp.get_active_entry() then
-          cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-        else
-          fallback()
-        end
-      end,
-      s = cmp.mapping.confirm({ select = true }),
-      c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+    ["<CR>"] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
     }),
-    --['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ['<C-e>'] = cmp.mapping({ i = cmp.mapping.close(), c = cmp.mapping.close() }),
-    ['<Esc>'] =
-    function(fallback)
-      cmp.mapping.abort()
-      fallback()
-    end,
-    -- ["<Tab>"] = cmp.mapping(function(fallback)
-    --   if cmp.visible() then
-    --     cmp.select_next_item()
-    --   -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
-    --   -- they way you will only jump inside the snippet region
-    --   elseif luasnip.expand_or_jumpable() then
-    --     luasnip.expand_or_jump()
-    --   elseif has_words_before() then
-    --     cmp.complete()
-    --   else
-    --     fallback()
-    --   end
-    -- end, { "i", "s" }),
-
-    -- ["<S-Tab>"] = cmp.mapping(function(fallback)
-    --   if cmp.visible() then
-    --     cmp.select_prev_item()
-    --   elseif luasnip.jumpable(-1) then
-    --     luasnip.jump(-1)
-    --   else
-    --     fallback()
-    --   end
-    -- end, { "i", "s" }),
-
-    --['<CR>'] = cmp.mapping({
-    --        i = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
-    --        c = function(fallback)
-    --            if cmp.visible() then
-    --                cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-    --            else
-    --                fallback()
-    --            end
-    --        end
-    --    }),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<Esc>'] = cmp.mapping.abort(),
   }),
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
@@ -164,34 +102,3 @@ cmp.setup.filetype('gitcommit', {
   })
 })
 
--- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
---cmp.setup.cmdline({ '/', '?' }, {
---  -- mapping = cmp.mapping.preset.cmdline(),
---  mapping = cmp.mapping.preset.insert({
---    ["<C-k>"] = cmp.mapping.select_prev_item(),
---    ["<C-j>"] = cmp.mapping.select_next_item(),
---    --['<CR>'] = cmp.mapping.confirm({ select = true }),
---    ['<Esc>'] =
---    function(fallback)
---      cmp.mapping.abort()
---      fallback()
---    end,
---  }),
---  sources = {
---    { name = 'buffer' }
---  }
---})
-
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
- --cmp.setup.cmdline(':', {
- --  mapping = cmp.mapping.preset.insert({
- --    ["<C-k>"] = cmp.mapping.select_prev_item(),
- --    ["<C-j>"] = cmp.mapping.select_next_item(),
- --    ['<CR>'] = cmp.mapping.confirm({ select = true }),
- --  }),
- --  sources = cmp.config.sources({
- --    { name = 'path' }
- --  }, {
- --    { name = 'cmdline' }
- --  })
- --})
