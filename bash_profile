@@ -109,6 +109,7 @@ function kubeon() {
     tomcli-set ~/.config/starship.toml del kubernetes.detect_folders
   fi
 }
+alias kon=kubeon
 
 function kubeoff() {
   if [[ -w ~/.config/starship.toml ]]; then
@@ -117,6 +118,8 @@ function kubeoff() {
     tomcli-set ~/.config/starship.toml list kubernetes.detect_folders 'vars'
   fi
 }
+
+alias koff=kubeoff
 
 # deal with environments
 function e() {
