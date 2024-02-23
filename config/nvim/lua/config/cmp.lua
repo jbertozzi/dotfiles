@@ -57,24 +57,8 @@ cmp.setup({
     end,
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-j>'] = cmp.mapping({
-      c = function(fallback)
-        if cmp.visible() then
-          return cmp.select_next_item()
-        end
-
-        fallback()
-      end,
-    }),
-    ['<C-k>'] = cmp.mapping({
-      c = function(fallback)
-        if cmp.visible() then
-          return cmp.select_prev_item()
-        end
-
-        fallback()
-      end,
-    }),
+    ['<C-j>'] = cmp.mapping.select_next_item(),
+    ['<C-k>'] = cmp.mapping.select_prev_item(),
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ["<CR>"] = cmp.mapping.confirm({
@@ -93,12 +77,63 @@ cmp.setup({
   })
 })
 
--- Set configuration for specific filetype.
-cmp.setup.filetype('gitcommit', {
+cmp.setup.cmdline({ "/", "?" }, {
+  mapping = cmp.mapping.preset.cmdline({
+    ['<C-j>'] = cmp.mapping({
+      c = function(fallback)
+        if cmp.visible() then
+          return cmp.select_next_item()
+        end
+
+        fallback()
+      end,
+    }),
+    ['<C-k>'] = cmp.mapping({
+      c = function(fallback)
+        if cmp.visible() then
+          return cmp.select_prev_item()
+        end
+
+        fallback()
+      end,
+    })
+  }),
   sources = cmp.config.sources({
-    { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
-  }, {
-    { name = 'buffer' },
-  })
+    { name = "buffer" },
+  }),
 })
 
+cmp.setup.cmdline(":", {
+  mapping = cmp.mapping.preset.cmdline({
+    ['<C-j>'] = cmp.mapping({
+      c = function(fallback)
+        if cmp.visible() then
+          return cmp.select_next_item()
+        end
+
+        fallback()
+      end,
+    }),
+    ['<C-k>'] = cmp.mapping({
+      c = function(fallback)
+        if cmp.visible() then
+          return cmp.select_prev_item()
+        end
+
+        fallback()
+      end,
+    })
+  }),
+  sources = cmp.config.sources({
+    { name = "path" },
+  }, {
+      {
+        name = "cmdline",
+        option = {
+          ignore_cmds = { "Man", "!" },
+        },
+      },
+    }, {
+      { name = "buffer" },
+    })
+})
