@@ -35,7 +35,8 @@ local mappings = {
   ["[q"] = { mode = "n", key = ":cprevious<cr>", { desc = "cycle qfix (previous)"} },
   ["gf"] = { mode = "n", key = ":e <cfile><cr>", { desc = "cycle qfix (previous)"} },
   ["<esc>"] = { mode = "t", key = "<C-\\><C-n>", { desc = "leave insert mode" }},
-  ["<leader>e"] = { mode = "n", key = ":lua vim.diagnostic.setqflist()<cr>", opt = { desc = "diagnostic to qfixlist" }}
+  ["<leader>e"] = { mode = "n", key = ":lua vim.diagnostic.setqflist()<cr>", opt = { desc = "diagnostic to qfixlist" }},
+  ["<leader>h"] = { mode = "n", key = ":0Gclog!<cr>", opt = { desc = "current buffer git history in qfixlist" }}
 }
 
 for key, mapping in pairs(mappings) do
@@ -43,17 +44,12 @@ for key, mapping in pairs(mappings) do
   vim.keymap.set(mapping.mode, key, mapping.key, opt)
 end
 
--- load history of a file in location list
--- keymap("n", "<leader>h", ":0Gllog!<cr>", opts)
-
 -- keymap("n", "fff", ":lua vim.lsp.buf.format { async = false }<cr>", opts)
 
 -- keymap("n", "<leader>ha", ":lua require('harpoon.mark').add_file()<cr>", opts)
 -- keymap("n", "<leader>hm", ":lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
 -- keymap("n", "<leader>hn", ":lua require('harpoon.ui').nav_next()<cr>", opts)
 -- keymap("n", "<leader>hp", ":lua require('harpoon.ui').nav_prev()<cr>", opts)
-
-
 
 -- keymap("n", "<leader>e", ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR })<cr>", opts)
 

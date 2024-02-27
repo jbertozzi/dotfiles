@@ -9,6 +9,7 @@ local mappings = {
   ["<leader>fg"] = { mode = "n", key = builtin.live_grep, opt = { desc = "grep files"} },
   ["<leader>fb"] = { mode = "n", key = builtin.live_grep, opt = { desc = "find buffers"} },
   ["<leader>fh"] = { mode = "n", key = builtin.help_tags, opt = { desc = "help tags"} },
+  ["<leader>fy"] = { mode = "n", key = "<cmd>Telescope yaml_schema<cr>", opt = { desc = "set yaml schema"} },
   ["<c-p>"] = { mode = "n", key = "<cmd>Telescope workspaces<cr>", opt = { desc = "help tags"} },
 }
 
