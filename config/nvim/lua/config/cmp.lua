@@ -66,7 +66,11 @@ cmp.setup({
       select = true,
     }),
     ['<C-e>'] = cmp.mapping.abort(),
-    ['<Esc>'] = cmp.mapping.abort(),
+    ['<Esc>'] = 
+    function(fallback)
+      cmp.mapping.abort()
+      fallback()
+    end,
   }),
   sources = cmp.config.sources({
     { name = "nvim_lsp" },

@@ -2,11 +2,20 @@ local telescope = require('telescope')
 local actions = require('telescope.actions')
 local builtin = require('telescope.builtin')
 
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-vim.keymap.set('n', '<c-p>', "<cmd>Telescope workspaces<cr>", {})
+local default_opts = { noremap = true, silent = true }
+
+local mappings = {
+  ["<leader>ff"] = { mode = "n", key = builtin.find_files, opt = { desc = "find files"} },
+  ["<leader>fg"] = { mode = "n", key = builtin.live_grep, opt = { desc = "grep files"} },
+  ["<leader>fb"] = { mode = "n", key = builtin.live_grep, opt = { desc = "find buffers"} },
+  ["<leader>fh"] = { mode = "n", key = builtin.help_tags, opt = { desc = "help tags"} },
+  ["<c-p>"] = { mode = "n", key = "<cmd>Telescope workspaces<cr>", opt = { desc = "help tags"} },
+}
+
+for key, mapping in pairs(mappings) do
+  local opt = vim.tbl_extend("force", default_opts, mapping.opt or {})
+  vim.keymap.set(mapping.mode, key, mapping.key, opt)
+end
 
 telescope.load_extension('fzf')
 

@@ -1,47 +1,11 @@
-local opts = { noremap = true, silent = true }
-local term_opts = { silent = true }
+local default_opts = { noremap = true, silent = true }
+-- local term_opts = { silent = true }
 local keymap = vim.api.nvim_set_keymap
 
 -- remap , as leader key
-keymap("", ",", "<Nop>", opts)
+keymap("", ",", "<Nop>", default_opts)
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
--- next buffer
---local tmp = add_to_default_opts({ desc = "next buffer"})
-
-keymap("n", "<tab>", ":bnext<cr>", opts)
--- previous buffer
-keymap("n", "<s-tab>", ":bprevious<cr>", opts)
--- close buffer
-keymap("n", "<leader>d", ":bd<cr>", opts)
--- keymap("n", "yy", '"+yy', opts)
--- keymap("v", "yy", '"+yy', opts)
-
--- populacte loclist from diagnostics
-keymap("n", "<leader>?", ":lua vim.diagnostic.setloclist()<cr>", opts)
-
--- populate quickfix list from gitsigns
--- keymap("n", "<leader>q", gs.setqflist(target=0, opts = {open = false}<cr>, opts)
-keymap("n", "<leader>q", ":lopen<cr>", opts)
-keymap("n", "<leader>Q", ":lclose<cr>", opts)
-keymap("n", "<c-n>", ":lnext<cr>", opts)
-keymap("n", "<c-p>", ":lprevious<cr>", opts)
-
--- load history of a file in location list
-keymap("n", "<leader>h", ":0Gllog!<cr>", opts)
-
--- gf create the file under the cursor if it doesn't exist
-keymap("n", "gf", ":e <cfile><cr>", opts)
-
--- format file using null-ls
--- vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, { desc = "Format file with LSP" })
-keymap("n", "fff", ":lua vim.lsp.buf.format { async = false }<cr>", opts)
-
-keymap("t", "<Esc>", "<C-\\><C-n>", opts)
-keymap("n", "<leader>ha", ":lua require('harpoon.mark').add_file()<cr>", opts)
-keymap("n", "<leader>hm", ":lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
-keymap("n", "<leader>hn", ":lua require('harpoon.ui').nav_next()<cr>", opts)
-keymap("n", "<leader>hp", ":lua require('harpoon.ui').nav_prev()<cr>", opts)
 
 -- toggle the quickfixlist
 local toggle_qf = function()
@@ -60,10 +24,39 @@ local toggle_qf = function()
   end
 end
 
-vim.keymap.set('n', '<c-q>', toggle_qf, {})
+local mappings = {
+  ["<s-tab>"] = { mode = "n", key = ":bprevious<cr>", opt = { desc = "cycle buffers (previous)"} },
+  ["<tab>"] = { mode = "n", "<tab>", key = ":bnext<cr>", opt = { desc = "cycle buffers (next)" } },
+  ["<leader>d"] = { mode = "n", key = ":bd<cr>", opt = { desc = "close current buffer"} },
+  ["<c-q>"] = { mode = "n", key = toggle_qf, opt = { desc = "toggle quickfixlist"}},
+  ["<c-j>"] = { mode = "n", key = ":cnext<cr>", { desc = "cycle qfix (next)"} },
+  ["<c-k>"] = { mode = "n", key = ":cprevious<cr>", { desc = "cycle qfix (previous)"} },
+  ["]q"] = { mode = "n", key = ":cnext<cr>", { desc = "cycle qfix (next)"} },
+  ["[q"] = { mode = "n", key = ":cprevious<cr>", { desc = "cycle qfix (previous)"} },
+  ["gf"] = { mode = "n", key = ":e <cfile><cr>", { desc = "cycle qfix (previous)"} },
+  ["<esc>"] = { mode = "t", key = "<C-\\><C-n>", { desc = "leave insert mode" }},
+  ["<leader>e"] = { mode = "n", key = ":lua vim.diagnostic.setqflist()<cr>", opt = { desc = "diagnostic to qfixlist" }}
+}
 
-keymap("n", "<leader>e", ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR })<cr>", opts)
+for key, mapping in pairs(mappings) do
+  local opt = vim.tbl_extend("force", default_opts, mapping.opt or {})
+  vim.keymap.set(mapping.mode, key, mapping.key, opt)
+end
 
-vim.keymap.set("n", "<c-j>", function()
-  vim.fn.setreg("+", require("jsonpath").get())
-end, { desc = "copy json path", buffer = true })
+-- load history of a file in location list
+-- keymap("n", "<leader>h", ":0Gllog!<cr>", opts)
+
+-- keymap("n", "fff", ":lua vim.lsp.buf.format { async = false }<cr>", opts)
+
+-- keymap("n", "<leader>ha", ":lua require('harpoon.mark').add_file()<cr>", opts)
+-- keymap("n", "<leader>hm", ":lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
+-- keymap("n", "<leader>hn", ":lua require('harpoon.ui').nav_next()<cr>", opts)
+-- keymap("n", "<leader>hp", ":lua require('harpoon.ui').nav_prev()<cr>", opts)
+
+
+
+-- keymap("n", "<leader>e", ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR })<cr>", opts)
+
+-- vim.keymap.set("n", "<c-j>", function()
+--   vim.fn.setreg("+", require("jsonpath").get())
+-- end, { desc = "copy json path", buffer = true })
