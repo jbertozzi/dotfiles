@@ -36,7 +36,8 @@ local mappings = {
   ["gf"] = { mode = "n", key = ":e <cfile><cr>", { desc = "cycle qfix (previous)"} },
   ["<esc>"] = { mode = "t", key = "<C-\\><C-n>", { desc = "leave insert mode" }},
   ["<leader>e"] = { mode = "n", key = ":lua vim.diagnostic.setqflist()<cr>", opt = { desc = "diagnostic to qfixlist" }},
-  ["<leader>h"] = { mode = "n", key = ":0Gclog!<cr>", opt = { desc = "current buffer git history in qfixlist" }}
+  ["<leader>h"] = { mode = "n", key = ":0Gclog!<cr>", opt = { desc = "current buffer git history in qfixlist" }},
+  ["<leader>g"] = { mode = "n", key = ":Gclog<cr>", opt = { desc = "commit history in qfixlist" }}
 }
 
 for key, mapping in pairs(mappings) do
