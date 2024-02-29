@@ -41,6 +41,11 @@ cmp.setup({
     -- completion = cmp.config.window.bordered(),
     -- documentation = cmp.config.window.bordered(),
   },
+  completion = {
+    -- Mainly to suppress collecting excessive amount of executables
+    -- from PATH after typing :!
+    keyword_length = 2,
+  },
   formatting = {
     fields = { "kind", "abbr", "menu" },
     format = function(entry, vim_item)
