@@ -2,10 +2,10 @@
 name = Jeremy Bertozzi
 email = jeremy.bertozi@gmail.com
 
-[includeIf "gitdir:~/github.com/**/.git"]
+[includeIf "gitdir:~/dev/github.com/**/.git"]
   path = ~/.gitconfig.github
 
-[includeIf "gitdir:~/github.foyer.lu/**/.git"]
+[includeIf "gitdir:~/dev/github.foyer.lu/**/.git"]
   path = ~/.gitconfig.foyer
 
 [alias]
