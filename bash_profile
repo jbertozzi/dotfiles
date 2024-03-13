@@ -88,9 +88,9 @@ function checkgit {
 # kubernetes
 if [ $(command -v kubectl) ]; then
   alias k=kubectl
-  if [ ! $(command -v kaf) ]; then
-    alias kaf='kubectl apply -f'
-  fi
+  # if [ ! $(command -v kaf) ]; then
+  #   alias kaf='kubectl apply -f'
+  # fi
   source <(kubectl completion bash)
   complete -F __start_kubectl k
   export do='--dry-run=client -oyaml'
@@ -123,37 +123,42 @@ alias koff=kubeoff
 
 # deal with environments
 function e() {
-  if [ -f ~/.secrets.json.gpg ]; then
+  if [ -f ~/.secrets.json ]; then
     json=$(gpg --quiet --decrypt ~/.secrets.json.gpg &1> /dev/null)
+    #json=$(cat ~/.secrets.json &1> /dev/null)
     if [[ $# == 0 ]]; then
       env=$(jq -r '. | to_entries[] | .key' <<< "$json" | fzf)
       choice=$(jq -r --arg env "$env" '. | to_entries[] | select(.key==$env) | .value | to_entries[] | .key' <<< $json | fzf)
-    elif [[ $# == 1 ]]; then
-      env=$1
-      choice=$(jq -r --arg env "$env" '. | to_entries[] | select(.key==$env) | .value | to_entries[] | .key' <<< $json | fzf)
-    else
-      env=$1
-      choice=$2
+      declare -A vars="($(jq -r --arg env $env --arg choice $choice '.[$env][$choice] | to_entries[] | "[" + .key + "]=" + "\"" + .value +"\""' <<< "$json"))"
+    else 
+      printf -v keys ".%s+" "$@" # 'keys' contains the jq code to concat the dicts
+      keys="${keys//\//\.}" # we allow '/' to be a separator (default is '.')
+      keys="${keys%+}" # remote the leading '+'
+      declare -A vars="($(jq -r "$keys | to_entries | map(\"[\(.key)]=\(.value)\") | join(\" \")" <<< $json))" # bash array containg string 'env_var=value' to be exported
     fi
-    declare -A vars="($(jq -r --arg env $env --arg choice $choice '.[$env][$choice] | to_entries[] | "[" + .key + "]=" + "\"" + .value +"\""' <<< "$json"))"
+    # for each key, we export the variable, unless the key is 'cmd' in which 
+    # case we execute a command (useful for ssh port forwarding for example)
     local executed=""
     for key in "${!vars[@]}"
     do
+      set -x
       if [ "$key" == "cmd" ]; then
         $(${vars[$key]})
         executed="${vars[$key]}"
       else
         export "$key=${vars[$key]}"
       fi
+      printf "environment set: %s" "${key}" 1>&2
+      if [ ! -z "$executed" ]; then
+        printf " (cmd: %s)" "${executed}" 1>&2
+      fi
+      printf "\n" 1>&2
+      executed=""
     done
   else
-    printf "'~/.secrets.json.gpg' not found\n"
+    printf "'~/.secrets.json' not found\n"
   fi
-  printf "environment set: %s/%s" "${env}" "${choice}"
-  if [ ! -z "$executed" ]; then
-    printf " (cmd: %s)" "${executed}"
-  fi
-  printf "\n"
+      set +x
 }
 
 # zoxide
