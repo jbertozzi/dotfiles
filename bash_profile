@@ -123,7 +123,7 @@ alias koff=kubeoff
 
 # deal with environments
 function e() {
-  if [ -f ~/.secrets.json ]; then
+  if [ -f ~/.secrets.json.gpg ]; then
     json=$(gpg --quiet --decrypt ~/.secrets.json.gpg &1> /dev/null)
     #json=$(cat ~/.secrets.json &1> /dev/null)
     if [[ $# == 0 ]]; then
@@ -134,14 +134,14 @@ function e() {
       printf -v keys ".%s+" "$@" # 'keys' contains the jq code to concat the dicts
       keys="${keys//\//\.}" # we allow '/' to be a separator (default is '.')
       keys="${keys%+}" # remote the leading '+'
-      declare -A vars="($(jq -r "$keys | to_entries | map(\"[\(.key)]=\(.value)\") | join(\" \")" <<< $json))" # bash array containg string 'env_var=value' to be exported
+      declare -A vars="($(jq -r "$keys | to_entries | map(\"[\(.key)]=\(.value)\") | sort | join(\" \")" <<< $json))" # bash array containg string 'env_var=value' to be exported
     fi
     # for each key, we export the variable, unless the key is 'cmd' in which 
     # case we execute a command (useful for ssh port forwarding for example)
     local executed=""
-    for key in "${!vars[@]}"
+    mapfile -d '' keys < <(printf '%s\0' "${!vars[@]}" | sort -z) # sort the keys (no builtin bash to do it on the associative array)
+    for key in "${keys[@]}" # for key in "${!vars[@]}" # used to have unsorted vars
     do
-      set -x
       if [ "$key" == "cmd" ]; then
         $(${vars[$key]})
         executed="${vars[$key]}"
@@ -156,9 +156,8 @@ function e() {
       executed=""
     done
   else
-    printf "'~/.secrets.json' not found\n"
+    printf "'~/.secrets.json.gpg' not found\n"
   fi
-      set +x
 }
 
 # zoxide
