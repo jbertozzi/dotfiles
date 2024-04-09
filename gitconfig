@@ -16,3 +16,5 @@ email = jeremy.bertozi@gmail.com
 
 [help]
   autocorrect = 1 
+[init]
+	defaultBranch = master
