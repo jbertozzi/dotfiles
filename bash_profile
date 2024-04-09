@@ -109,6 +109,7 @@ function kubeon() {
     tomcli-set ~/.config/starship.toml del kubernetes.detect_folders
   fi
 }
+
 alias kon=kubeon
 
 function kubeoff() {
@@ -121,7 +122,24 @@ function kubeoff() {
 
 alias koff=kubeoff
 
-# deal with environments
+function vaulton() {
+  if [[ -w ~/.config/starship.toml ]]; then
+    # requires tomcli package
+    tomcli-set ~/.config/starship.toml false env_var.VAULT_ADDR.disabled
+  fi
+}
+
+alias von=vaulton
+
+function vaultoff() {
+  if [[ -w ~/.config/starship.toml ]]; then
+    # requires tomcli package
+    tomcli-set ~/.config/starship.toml true env_var.VAULT_ADDR.disabled
+  fi
+}
+
+alias voff=vaultoff
+
 function e() {
   if [ -f ~/.secrets.json.gpg ]; then
     json=$(gpg --quiet --decrypt ~/.secrets.json.gpg &1> /dev/null)
