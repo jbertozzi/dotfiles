@@ -1,29 +1,45 @@
 format = """
 ╭─$time\
+$username\
+$hostname\
 $directory\
 $git_branch$git_status\
 $python\
 $golang\
 $kubernetes\
-$cmd_duration
-╰─> 
+$cmd_duration\
+$custom
+╰─> $env_var
 """
 palette = 'jbertozzi'
 
 [python]
-#style = 'bg:#86BBD8'
 format = '[ $virtualenv]($style)'
+disabled = true
+
+[custom.lunch]
+when = '(( ($(date +%s -d "11:30") - $( date +%s )) < 3600 ))'
+command = 'echo $(( $(date +%s -d "11:30") - $( date +%s ) ))'
+format = '$output seconds before lunch'
+disabled = true
+
+[env_var.VAULT_ADDR]
+variable = 'VAULT_ADDR'
+style = "fg:blue"
+format = '([\($env_value\)]($style)) '
 disabled = true
 
 [kubernetes]
 style = "fg:blue"
 format = '[󱃾 $context:$namespace ]($style)'
 disabled = true
+detect_folders = ["vars"]
 
 [directory]
 style = "fg:yellow"
 format = "[$path ]($style)"
-truncation_length = 2
+truncation_length = 3
+truncate_to_repo = false
 truncation_symbol = "…/"
 
 [directory.substitutions]
