@@ -211,6 +211,11 @@ fi
 #if [ -f ~/.bash_secret.gpg ]; then
 #   source <(gpg --quiet --decrypt ~/.bash_secret.gpg)
 #fi
+# use ctrl-z to toggle in and out of bg
+if [[ $- == *i* ]]; then 
+  stty susp undef
+  bind '"\C-z":" fg\015"'
+fi
 
 # start tmux after loading all environement variables
 if [ -z "$TMUX" ]; then
