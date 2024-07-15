@@ -24,6 +24,29 @@ local toggle_qf = function()
   end
 end
 
+-- check if terminal already exists
+local function has_terminal()
+  for _, buf in ipairs(vim.fn.getbufinfo({buflisted = 1})) do
+    if vim.fn.getbufvar(buf.bufnr, "&buftype") == "terminal" then
+      return true
+    end
+  end
+  return false
+end
+
+local function toggle_term()
+  vim.print("toggle_term")
+  if not has_terminal() then
+    local buf = vim.api.nvim_create_buf(true, true)
+    _G.terminal = buf
+    vim.api.nvim_set_current_buf(buf)
+    vim.cmd("terminal")
+    vim.api.nvim_feedkeys('i', 'n', false)
+  else
+    vim.api.nvim_set_current_buf(_G.terminal)
+  end
+end
+
 local mappings = {
   ["<s-tab>"] = { mode = "n", key = ":bprevious<cr>", opt = { desc = "cycle buffers (previous)"} },
   ["<tab>"] = { mode = "n", "<tab>", key = ":bnext<cr>", opt = { desc = "cycle buffers (next)" } },
@@ -38,7 +61,16 @@ local mappings = {
   ["<leader>e"] = { mode = "n", key = ":lua vim.diagnostic.setqflist()<cr>", opt = { desc = "diagnostic to qfixlist" }},
   ["<leader>h"] = { mode = "n", key = ":0Gclog!<cr>", opt = { desc = "current buffer git history in qfixlist" }},
   ["<leader>g"] = { mode = "n", key = ":Gclog<cr>", opt = { desc = "commit history in qfixlist" }},
-  ["<leader>?"] = { mode = "n", key = ":WhichKey<cr>", opt = { desc = "display WhichKey" }}
+  ["<leader>?"] = { mode = "n", key = ":WhichKey<cr>", opt = { desc = "display WhichKey" }},
+  ["<c-t>"] = { mode = {"n", "v", "t", "i"}, key = toggle_term, opt = { desc = "display WhichKey" }},
+  ["<a-h>"] = {mode = {"t", "i"}, key = "<c-\\><c-n><c-w>h", opt = { desc = "navigate window left"}},
+  ["<a-j>"] = {mode = {"t", "i"}, key = "<c-\\><c-n><c-w>j", opt = { desc = "navigate window down"}},
+  ["<a-k>"] = {mode = {"t", "i"}, key = "<c-\\><c-n><c-w>k", opt = { desc = "navigate window up"}},
+  ["<a-l>"] = {mode = {"t", "i"}, key = "<c-\\><c-n><c-w>l", opt = { desc = "navigate window right"}},
+  ["<a-h>"] = {mode = {"n"}, key = "<c-w>h", opt = { desc = "navigate window left"}},
+  ["<a-j>"] = {mode = {"n"}, key = "<c-w>j", opt = { desc = "navigate window down"}},
+  ["<a-k>"] = {mode = {"n"}, key = "<c-w>k", opt = { desc = "navigate window up"}},
+  ["<a-l>"] = {mode = {"n"}, key = "<c-w>l", opt = { desc = "navigate window right"}}
 }
 
 for key, mapping in pairs(mappings) do
