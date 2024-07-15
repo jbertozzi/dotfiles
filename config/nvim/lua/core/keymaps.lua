@@ -35,15 +35,21 @@ local function has_terminal()
 end
 
 local function toggle_term()
-  vim.print("toggle_term")
   if not has_terminal() then
+    _G.previous_buffer = vim.api.nvim_get_current_buf()
     local buf = vim.api.nvim_create_buf(true, true)
     _G.terminal = buf
     vim.api.nvim_set_current_buf(buf)
     vim.cmd("terminal")
     vim.api.nvim_feedkeys('i', 'n', false)
   else
-    vim.api.nvim_set_current_buf(_G.terminal)
+    if vim.api.nvim_get_current_buf() == _G.terminal then
+      vim.api.nvim_set_current_buf(_G.previous_buffer)
+    else
+      _G.previous_buffer = vim.api.nvim_get_current_buf()
+      vim.api.nvim_set_current_buf(_G.terminal)
+      vim.api.nvim_feedkeys('i', 'n', false)
+    end
   end
 end
 
