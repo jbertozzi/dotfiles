@@ -53,6 +53,7 @@ local function toggle_term()
   end
 end
 
+local harpoon = require('harpoon')
 local mappings = {
   {"<s-tab>", ":bprevious<cr>", mode = "n", opt = { desc = "cycle buffers (previous)"} },
   {"<tab>", ":bnext<cr>",mode = "n", "<tab>", opt = { desc = "cycle buffers (next)" } },
@@ -69,14 +70,6 @@ local mappings = {
   {"<leader>g", ":Gclog<cr>",mode = "n", opt = { desc = "commit history in qfixlist" }},
   {"<leader>?", ":WhichKey<cr>",mode = "n", opt = { desc = "display WhichKey" }},
   {"<c-t>", toggle_term,mode = {"n", "v", "t", "i"}, opt = { desc = "display WhichKey" }},
-  {"<a-h>","<c-\\><c-n><c-w>h",mode = {"t", "i"}, opt = { desc = "navigate window left"}},
-  {"<a-j>","<c-\\><c-n><c-w>j",mode = {"t", "i"}, opt = { desc = "navigate window down"}},
-  {"<a-k>","<c-\\><c-n><c-w>k",mode = {"t", "i"}, opt = { desc = "navigate window up"}},
-  {"<a-l>","<c-\\><c-n><c-w>l",mode = {"t", "i"}, opt = { desc = "navigate window right"}},
-  {"<a-h>","<c-w>h",mode = {"n"}, opt = { desc = "navigate window left"}},
-  {"<a-j>","<c-w>j",mode = {"n"}, opt = { desc = "navigate window down"}},
-  {"<a-k>","<c-w>k",mode = {"n"}, opt = { desc = "navigate window up"}},
-  {"<a-l>","<c-w>l",mode = {"n"}, opt = { desc = "navigate window right"}}
 }
 
 for _, mapping in pairs(mappings) do
