@@ -1,6 +1,8 @@
 local harpoon = require("harpoon")
+
 harpoon:setup()
 
+-- basic telescope configuration
 local conf = require("telescope.config").values
 local function toggle_telescope(harpoon_files)
     local file_paths = {}
@@ -18,15 +20,6 @@ local function toggle_telescope(harpoon_files)
     }):find()
 end
 
-vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
-    { desc = "Open harpoon window" })
-
-local mappings = {
-  {"<c-e>", function() toggle_telescope(harpoon:list()) end, mode = {"n", "v", "i"}, opt = { desc = "harpooned files" }},
-  {"<leader>a", function() harpoon:list():add() end, mode = "n", opt = { desc = "harpoon current file" }},
-}
-
-for _, mapping in pairs(mappings) do
-  local opt = vim.tbl_extend("force", default_opts, mapping.opt or {})
-  vim.keymap.set(mapping.mode, mapping[1], mapping[2], opt)
-end
+vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end, { desc = "Open harpoon window" })
+vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end, { desc = "Harpoon the file" })
+vim.keymap.set("n", "<leader>r", function() harpoon:list():remove() end, { desc = "Un-harpoon the file" })
