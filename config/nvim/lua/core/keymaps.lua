@@ -54,34 +54,34 @@ local function toggle_term()
 end
 
 local mappings = {
-  ["<s-tab>"] = { mode = "n", key = ":bprevious<cr>", opt = { desc = "cycle buffers (previous)"} },
-  ["<tab>"] = { mode = "n", "<tab>", key = ":bnext<cr>", opt = { desc = "cycle buffers (next)" } },
-  ["<leader>d"] = { mode = "n", key = ":bd<cr>", opt = { desc = "close current buffer"} },
-  ["<c-q>"] = { mode = "n", key = toggle_qf, opt = { desc = "toggle quickfixlist"}},
-  ["<c-j>"] = { mode = "n", key = ":cnext<cr>", { desc = "cycle qfix (next)"} },
-  ["<c-k>"] = { mode = "n", key = ":cprevious<cr>", { desc = "cycle qfix (previous)"} },
-  ["]q"] = { mode = "n", key = ":cnext<cr>", { desc = "cycle qfix (next)"} },
-  ["[q"] = { mode = "n", key = ":cprevious<cr>", { desc = "cycle qfix (previous)"} },
-  ["gf"] = { mode = "n", key = ":e <cfile><cr>", { desc = "cycle qfix (previous)"} },
-  ["<esc>"] = { mode = "t", key = "<C-\\><C-n>", { desc = "leave insert mode" }},
-  ["<leader>e"] = { mode = "n", key = ":lua vim.diagnostic.setqflist()<cr>", opt = { desc = "diagnostic to qfixlist" }},
-  ["<leader>h"] = { mode = "n", key = ":0Gclog!<cr>", opt = { desc = "current buffer git history in qfixlist" }},
-  ["<leader>g"] = { mode = "n", key = ":Gclog<cr>", opt = { desc = "commit history in qfixlist" }},
-  ["<leader>?"] = { mode = "n", key = ":WhichKey<cr>", opt = { desc = "display WhichKey" }},
-  ["<c-t>"] = { mode = {"n", "v", "t", "i"}, key = toggle_term, opt = { desc = "display WhichKey" }},
-  ["<a-h>"] = {mode = {"t", "i"}, key = "<c-\\><c-n><c-w>h", opt = { desc = "navigate window left"}},
-  ["<a-j>"] = {mode = {"t", "i"}, key = "<c-\\><c-n><c-w>j", opt = { desc = "navigate window down"}},
-  ["<a-k>"] = {mode = {"t", "i"}, key = "<c-\\><c-n><c-w>k", opt = { desc = "navigate window up"}},
-  ["<a-l>"] = {mode = {"t", "i"}, key = "<c-\\><c-n><c-w>l", opt = { desc = "navigate window right"}},
-  ["<a-h>"] = {mode = {"n"}, key = "<c-w>h", opt = { desc = "navigate window left"}},
-  ["<a-j>"] = {mode = {"n"}, key = "<c-w>j", opt = { desc = "navigate window down"}},
-  ["<a-k>"] = {mode = {"n"}, key = "<c-w>k", opt = { desc = "navigate window up"}},
-  ["<a-l>"] = {mode = {"n"}, key = "<c-w>l", opt = { desc = "navigate window right"}}
+  {"<s-tab>", ":bprevious<cr>", mode = "n", opt = { desc = "cycle buffers (previous)"} },
+  {"<tab>", ":bnext<cr>",mode = "n", "<tab>", opt = { desc = "cycle buffers (next)" } },
+  {"<leader>d", ":bd<cr>",mode = "n", opt = { desc = "close current buffer"} },
+  {"<c-q>", toggle_qf,mode = "n", opt = { desc = "toggle quickfixlist"}},
+  {"<c-j>", ":cnext<cr>",mode = "n", { desc = "cycle qfix (next)"} },
+  {"<c-k>", ":cprevious<cr>",mode = "n", { desc = "cycle qfix (previous)"} },
+  {"]q", ":cnext<cr>",mode = "n", { desc = "cycle qfix (next)"} },
+  {"[q", ":cprevious<cr>",mode = "n", { desc = "cycle qfix (previous)"} },
+  {"gf", ":e <cfile><cr>",mode = "n", { desc = "cycle qfix (previous)"} },
+  {"<esc>", "<C-\\><C-n>",mode = "t", { desc = "leave insert mode" }},
+  {"<leader>e", ":lua vim.diagnostic.setqflist()<cr>",mode = "n", opt = { desc = "diagnostic to qfixlist" }},
+  {"<leader>h", ":0Gclog!<cr>",mode = "n", opt = { desc = "current buffer git history in qfixlist" }},
+  {"<leader>g", ":Gclog<cr>",mode = "n", opt = { desc = "commit history in qfixlist" }},
+  {"<leader>?", ":WhichKey<cr>",mode = "n", opt = { desc = "display WhichKey" }},
+  {"<c-t>", toggle_term,mode = {"n", "v", "t", "i"}, opt = { desc = "display WhichKey" }},
+  {"<a-h>","<c-\\><c-n><c-w>h",mode = {"t", "i"}, opt = { desc = "navigate window left"}},
+  {"<a-j>","<c-\\><c-n><c-w>j",mode = {"t", "i"}, opt = { desc = "navigate window down"}},
+  {"<a-k>","<c-\\><c-n><c-w>k",mode = {"t", "i"}, opt = { desc = "navigate window up"}},
+  {"<a-l>","<c-\\><c-n><c-w>l",mode = {"t", "i"}, opt = { desc = "navigate window right"}},
+  {"<a-h>","<c-w>h",mode = {"n"}, opt = { desc = "navigate window left"}},
+  {"<a-j>","<c-w>j",mode = {"n"}, opt = { desc = "navigate window down"}},
+  {"<a-k>","<c-w>k",mode = {"n"}, opt = { desc = "navigate window up"}},
+  {"<a-l>","<c-w>l",mode = {"n"}, opt = { desc = "navigate window right"}}
 }
 
-for key, mapping in pairs(mappings) do
+for _, mapping in pairs(mappings) do
   local opt = vim.tbl_extend("force", default_opts, mapping.opt or {})
-  vim.keymap.set(mapping.mode, key, mapping.key, opt)
+  vim.keymap.set(mapping.mode, mapping[1], mapping[2], opt)
 end
 
 -- keymap("n", "fff", ":lua vim.lsp.buf.format { async = false }<cr>", opts)

@@ -5,17 +5,18 @@ local builtin = require('telescope.builtin')
 local default_opts = { noremap = true, silent = true }
 
 local mappings = {
-  ["<leader>ff"] = { mode = "n", key = builtin.find_files, opt = { desc = "find files"} },
-  ["<leader>fg"] = { mode = "n", key = builtin.live_grep, opt = { desc = "grep files"} },
-  ["<leader>fb"] = { mode = "n", key = builtin.live_grep, opt = { desc = "find buffers"} },
-  ["<leader>fh"] = { mode = "n", key = builtin.help_tags, opt = { desc = "help tags"} },
-  ["<leader>fy"] = { mode = "n", key = "<cmd>Telescope yaml_schema<cr>", opt = { desc = "set yaml schema"} },
-  ["<c-p>"] = { mode = "n", key = "<cmd>Telescope workspaces<cr>", opt = { desc = "help tags"} },
+  {"<leader>ff", builtin.find_files, mode = "n", opt = { desc = "find files"} },
+  {"<leader>fr", "<cmd>Telescope oldfiles<cr>", mode = "n", "Open Recent File" },
+  {"<leader>fg", builtin.live_grep, mode = "n", opt = { desc = "grep files"} },
+  {"<leader>fb", builtin.live_grep, mode = "n", opt = { desc = "find buffers"} },
+  {"<leader>fh", builtin.help_tags, mode = "n", opt = { desc = "help tags"} },
+  {"<leader>fy", "<cmd>Telescope yaml_schema<cr>", mode = "n", opt = { desc = "set yaml schema"} },
+  {"<c-p>", "<cmd>Telescope workspaces<cr>", mode = "n", opt = { desc = "help tags"} },
 }
 
-for key, mapping in pairs(mappings) do
+for _, mapping in pairs(mappings) do
   local opt = vim.tbl_extend("force", default_opts, mapping.opt or {})
-  vim.keymap.set(mapping.mode, key, mapping.key, opt)
+  vim.keymap.set(mapping.mode, mapping[1], mapping[2], opt)
 end
 
 telescope.load_extension('fzf')
