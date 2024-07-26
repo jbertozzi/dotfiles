@@ -66,7 +66,7 @@ local mappings = {
   {"gf", ":e <cfile><cr>",mode = "n", { desc = "cycle qfix (previous)"} },
   {"<esc>", "<C-\\><C-n>",mode = "t", { desc = "leave insert mode" }},
   {"<leader>e", ":lua vim.diagnostic.setqflist()<cr>",mode = "n", opt = { desc = "diagnostic to qfixlist" }},
-  {"<leader>h", ":0Gclog!<cr>",mode = "n", opt = { desc = "current buffer git history in qfixlist" }},
+  {"<leader>h", ":0Gclog!<cr>",mode = "n", opt = { desc = "git commit history for % in qfixlist" }},
   {"<leader>g", ":Gclog<cr>",mode = "n", opt = { desc = "commit history in qfixlist" }},
   {"<leader>?", ":WhichKey<cr>",mode = "n", opt = { desc = "display WhichKey" }},
   {"<c-t>", toggle_term,mode = {"n", "v", "t", "i"}, opt = { desc = "display WhichKey" }},

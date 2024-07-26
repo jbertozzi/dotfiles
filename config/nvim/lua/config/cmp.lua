@@ -113,7 +113,10 @@ cmp.setup.cmdline({ "/", "?" }, {
 })
 
 cmp.setup.cmdline(":", {
-  mapping = cmp.mapping.preset.cmdline({
+  completion = {
+    keyword_length = 3
+  },
+  mapping = {
     ['<C-j>'] = cmp.mapping({
       c = function(fallback)
         if cmp.visible() then
@@ -132,10 +135,19 @@ cmp.setup.cmdline(":", {
         fallback()
       end,
     })
-  }),
-  sources = cmp.config.sources({
+  },
+  sources = cmp.config.sources(
+  {
     { name = "path" },
-  },  {
-      { name = "buffer" },
-    })
+  },
+  {
+    { name = "buffer" },
+  },
+  {
+    name = 'cmdline',
+    option = {
+      ignore_cmds = { 'Man', '!' }
+    }
+  }
+  )
 })

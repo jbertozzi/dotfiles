@@ -6,7 +6,7 @@ local default_opts = { noremap = true, silent = true }
 
 local mappings = {
   {"<leader>ff", builtin.find_files, mode = "n", opt = { desc = "find files"} },
-  {"<leader>fr", "<cmd>Telescope oldfiles<cr>", mode = "n", "Open Recent File" },
+  {"<leader>fr", "<cmd>Telescope oldfiles<cr>", mode = "n", opt = { desc = "recent file" }},
   {"<leader>fg", builtin.live_grep, mode = "n", opt = { desc = "grep files"} },
   {"<leader>fb", builtin.live_grep, mode = "n", opt = { desc = "find buffers"} },
   {"<leader>fh", builtin.help_tags, mode = "n", opt = { desc = "help tags"} },

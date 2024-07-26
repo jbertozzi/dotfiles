@@ -18,7 +18,6 @@ return {
   "L3MON4D3/LuaSnip",
   "arouene/vim-ansible-vault",
   "ahmedkhalf/project.nvim",
-  "ThePrimeagen/harpoon",
   "jamessan/vim-gnupg",
   "vimwiki/vimwiki",
   "karb94/neoscroll.nvim",
