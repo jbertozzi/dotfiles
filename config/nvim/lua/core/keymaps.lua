@@ -53,6 +53,27 @@ local function toggle_term()
   end
 end
 
+local function execute_selection()
+  -- fetch start/end position of visual selection
+  local v_start = vim.fn.getpos("v")
+  local v_end = vim.fn.getpos(".")
+  if v_start[2] == v_end[2] then
+    local n = v_start[2]
+    local line = vim.fn.getline(n)
+    local selection = string.sub(line, v_start[3], v_end[3])
+    local result = vim.fn.system(selection)
+    if vim.v.shell_error ~= 0 then
+      print("Error while executing command: " .. result)
+    else
+      vim.fn.setreg('"', result)
+      -- leave visual mode
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', true)
+      -- go back to inital position
+      vim.fn.setpos('.', v_start)
+    end
+  end
+end
+
 local harpoon = require('harpoon')
 local mappings = {
   {"<s-tab>", ":bprevious<cr>", mode = "n", opt = { desc = "cycle buffers (previous)"} },
@@ -70,6 +91,7 @@ local mappings = {
   {"<leader>g", ":Gclog<cr>",mode = "n", opt = { desc = "commit history in qfixlist" }},
   {"<leader>?", ":WhichKey<cr>",mode = "n", opt = { desc = "display WhichKey" }},
   {"<c-t>", toggle_term,mode = {"n", "v", "t", "i"}, opt = { desc = "display WhichKey" }},
+  {"<c-x>", execute_selection,mode = { "v" }, opt = { desc = "execute visually selected text" }},
 }
 
 for _, mapping in pairs(mappings) do
@@ -89,3 +111,4 @@ end
 -- vim.keymap.set("n", "<c-j>", function()
 --   vim.fn.setreg("+", require("jsonpath").get())
 -- end, { desc = "copy json path", buffer = true })
+--
