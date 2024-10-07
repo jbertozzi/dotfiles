@@ -92,6 +92,8 @@ local mappings = {
   {"<leader>?", ":WhichKey<cr>",mode = "n", opt = { desc = "display WhichKey" }},
   {"<c-t>", toggle_term,mode = {"n", "v", "t", "i"}, opt = { desc = "display WhichKey" }},
   {"<c-x>", execute_selection,mode = { "v" }, opt = { desc = "execute visually selected text" }},
+  {"p", require('pasta.mapping').p, mode = {'n', 'x'}, opt = { desc = "smarter p"} },
+  {"P", require('pasta.mapping').P, mode = {'n', 'x'}, opt = { desc = "smarter P"} },
 }
 
 for _, mapping in pairs(mappings) do
