@@ -15,6 +15,7 @@ return {
   "hrsh7th/cmp-cmdline", -- cmdline completions
   "hrsh7th/cmp-nvim-lsp",
   "hrsh7th/cmp-nvim-lua",
+  "hrsh7th/cmp-nvim-lsp-signature-help",
   "L3MON4D3/LuaSnip",
   "arouene/vim-ansible-vault",
   "ahmedkhalf/project.nvim",
@@ -24,6 +25,8 @@ return {
   "nvim-treesitter/nvim-treesitter-context",
   "phelipetls/jsonpath.nvim",
   "sindrets/diffview.nvim",
+  "mfussenegger/nvim-dap",
+  "leoluz/nvim-dap-go",
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   {
     'nvim-lualine/lualine.nvim',
