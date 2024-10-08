@@ -27,7 +27,13 @@ return {
   "phelipetls/jsonpath.nvim",
   "sindrets/diffview.nvim",
   "mfussenegger/nvim-dap",
-  "leoluz/nvim-dap-go",
+  "nvim-neotest/nvim-nio",
+  "ray-x/go.nvim",
+  "theHamsta/nvim-dap-virtual-text",
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
+  },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   {
     'nvim-lualine/lualine.nvim',
