@@ -24,13 +24,14 @@ return {
   "vimwiki/vimwiki",
   "karb94/neoscroll.nvim",
   "nvim-treesitter/nvim-treesitter-context",
+  "nvim-treesitter/nvim-treesitter-textobjects",
   "phelipetls/jsonpath.nvim",
   "sindrets/diffview.nvim",
   "mfussenegger/nvim-dap",
   "nvim-neotest/nvim-nio",
   "ray-x/go.nvim",
   "theHamsta/nvim-dap-virtual-text",
-  "Ramilito/kubectl.nvim",
+  "ramilito/kubectl.nvim",
   {
     "otavioschwanck/arrow.nvim",
     dependencies = {
