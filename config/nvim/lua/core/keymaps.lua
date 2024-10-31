@@ -94,6 +94,7 @@ local mappings = {
   {"<c-x>", execute_selection,mode = { "v" }, opt = { desc = "execute visually selected text" }},
   {"p", require('pasta.mapping').p, mode = {'n', 'x'}, opt = { desc = "smarter p"} },
   {"P", require('pasta.mapping').P, mode = {'n', 'x'}, opt = { desc = "smarter P"} },
+  {"<leader>k", ":lua require('kubectl').toggle()<cr>", mode ='n', opt = { desc = "kubectl"} },
 }
 
 for _, mapping in pairs(mappings) do

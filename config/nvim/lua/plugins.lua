@@ -30,6 +30,7 @@ return {
   "nvim-neotest/nvim-nio",
   "ray-x/go.nvim",
   "theHamsta/nvim-dap-virtual-text",
+  "Ramilito/kubectl.nvim",
   {
     "otavioschwanck/arrow.nvim",
     dependencies = {
