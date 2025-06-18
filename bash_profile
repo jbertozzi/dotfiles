@@ -31,6 +31,7 @@ export PS1="${c_cyan}\u@\h:${c_yell}\w ${c_reset}\$ "
 # make <C-s> works in bash. Can also be achieved in PuTTY as well:
 # Connection->SSH->TTY -> Mode -> IXION = 0
 stty -ixon
+
 HOSTNAME=$(hostname -s)
 export TERM="xterm-256color"
 case $TERM in
@@ -77,13 +78,6 @@ function checkgit {
     rc=1
   fi
 }
-
-# bash command timer
-# curl -o .bash_command_timer.sh https://raw.githubusercontent.com/jichu4n/bash-command-timer/master/bash_command_timer.sh
-#if [ -e ~/.bash_command_timer.sh ] ; then
-#  source ~/.bash_command_timer.sh
-#  export BCT_TIME_FORMAT="%Y/%m/%d %H:%M:%S"
-#fi
 
 # kubernetes
 if [ $(command -v kubectl) ]; then
@@ -188,6 +182,12 @@ if [ $(command -v starship) ]; then
   eval "$(starship init bash)"
 fi
 
+# atuin
+if [ $(command -v atuin) ]; then
+  source ~/.bash-preexec.sh
+  eval "$(atuin init bash --disable-up-arrow)"
+fi
+
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude=.git "" $(git rev-parse --show-toplevel 2> /dev/null) |xargs realpath --relative-to=$(pwd)'
 
 # nvim as man page viewer
@@ -210,10 +210,6 @@ if [ -f ~/.bash_local ]; then
    source ~/.bash_local
 fi
 
-# secret config
-#if [ -f ~/.bash_secret.gpg ]; then
-#   source <(gpg --quiet --decrypt ~/.bash_secret.gpg)
-#fi
 # use ctrl-z to toggle in and out of bg
 if [[ $- == *i* ]]; then 
   stty susp undef
