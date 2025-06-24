@@ -1,0 +1,9 @@
+[user]
+  email = jeremy.bertozzi@gmail.com
+  name = Jérémy Bertozzi
+
+[commit]
+  gpgsign = false
+
+[url "https://jbertozzi:${GITHUB_TOKEN}@github.com/"]
+  insteadOf = https://github.com/
