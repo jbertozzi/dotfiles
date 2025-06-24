@@ -74,7 +74,6 @@ local function execute_selection()
   end
 end
 
-local harpoon = require('harpoon')
 local mappings = {
   {"<s-tab>", ":bprevious<cr>", mode = "n", opt = { desc = "cycle buffers (previous)"} },
   {"<tab>", ":bnext<cr>",mode = "n", "<tab>", opt = { desc = "cycle buffers (next)" } },
@@ -103,12 +102,6 @@ for _, mapping in pairs(mappings) do
 end
 
 -- keymap("n", "fff", ":lua vim.lsp.buf.format { async = false }<cr>", opts)
-
--- keymap("n", "<leader>ha", ":lua require('harpoon.mark').add_file()<cr>", opts)
--- keymap("n", "<leader>hm", ":lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
--- keymap("n", "<leader>hn", ":lua require('harpoon.ui').nav_next()<cr>", opts)
--- keymap("n", "<leader>hp", ":lua require('harpoon.ui').nav_prev()<cr>", opts)
-
 -- keymap("n", "<leader>e", ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR })<cr>", opts)
 
 -- vim.keymap.set("n", "<c-j>", function()
