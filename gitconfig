@@ -18,3 +18,5 @@ email = jeremy.bertozi@gmail.com
   autocorrect = 1 
 [init]
 	defaultBranch = master
+[pull]
+	rebase = true
