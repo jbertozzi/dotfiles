@@ -44,6 +44,7 @@ vim.cmd [[ autocmd BufReadPost *
     \ endif ]]
 
 vim.g.ansible_vault_password_file = "/home/rtj/.vault"
+vim.deprecate = function() end
 --vim.cmd [[ autocmd FileType yaml.ansible setlocal keywordprg=ansible-doc ]]
 --vim.cmd [[ if has('wsl')
 --             let g:clipboard = {
