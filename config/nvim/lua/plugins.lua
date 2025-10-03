@@ -118,5 +118,10 @@ return {
       require("nvim-surround").setup({
       })
     end
+  },
+  {
+    "jbertozzi/neovault",
+    -- dir = "~/dev/github.com/neovault",
+    -- dev = true,
   }
 }
