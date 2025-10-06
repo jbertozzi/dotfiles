@@ -94,7 +94,8 @@ local mappings = {
   {"p", require('pasta.mapping').p, mode = {'n', 'x'}, opt = { desc = "smarter p"} },
   {"P", require('pasta.mapping').P, mode = {'n', 'x'}, opt = { desc = "smarter P"} },
   {"<leader>k", ":lua require('kubectl').toggle()<cr>", mode ='n', opt = { desc = "kubectl"} },
-  {"<leader>v", ':NeoVaultSearch', mode = 'n', opt = { noremap = true, silent = true, desc = 'Search Vault secrets via Telescope'} }
+  {"<leader>vs", ':NeoVaultSearch ', mode = 'n', opt = { noremap = true, silent = true, desc = 'Search Vault secrets via Telescope'} },
+  {"<leader>vb", ':NeoVaultBrowse ', mode = 'n', opt = { noremap = true, silent = true, desc = 'Browse Vault secrets via Telescope'} }
 }
 
 for _, mapping in pairs(mappings) do

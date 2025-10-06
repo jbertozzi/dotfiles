@@ -121,6 +121,8 @@ return {
   },
   {
     "jbertozzi/neovault",
+    branch = "master"
+    -- cmd = "VaultExpolorer",
     -- dir = "~/dev/github.com/neovault",
     -- dev = true,
   }

@@ -44,7 +44,6 @@ disabled = true
 style = "fg:blue"
 format = '[󱃾 $context:$namespace ]($style)'
 disabled = false
-detect_folders = [ 'vars' ]
 
 [directory]
 style = "fg:yellow"
