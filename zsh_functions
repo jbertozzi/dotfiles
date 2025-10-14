@@ -1,0 +1,73 @@
+# functions kubeon/kubeoff
+kubeon() {
+  if [[ -w ~/.config/starship.toml ]]; then
+    tomcli-set ~/.config/starship.toml false kubernetes.disabled
+    tomcli-set ~/.config/starship.toml del kubernetes.detect_folders
+  fi
+}
+
+kubeoff() {
+  if [[ -w ~/.config/starship.toml ]]; then
+    tomcli-set ~/.config/starship.toml true kubernetes.disabled
+    tomcli-set ~/.config/starship.toml list kubernetes.detect_folders 'vars'
+  fi
+}
+
+vaulton() {
+  if [[ -w ~/.config/starship.toml ]]; then
+    tomcli-set ~/.config/starship.toml false env_var.VAULT_ADDR.disabled
+  fi
+}
+
+vaultoff() {
+  if [[ -w ~/.config/starship.toml ]]; then
+    tomcli-set ~/.config/starship.toml true env_var.VAULT_ADDR.disabled
+  fi
+}
+
+# fonction e() → secrets
+e() {
+  if [[ -f ~/.secrets.json.gpg ]]; then
+    json=$(gpg --quiet --decrypt ~/.secrets.json.gpg 2>/dev/null)
+    if [[ $# == 0 ]]; then
+      env=$(jq -r '. | to_entries[] | .key' <<< "$json" | fzf)
+      choice=$(jq -r --arg env "$env" '.[$env] | to_entries[] | .key' <<< "$json" | fzf)
+      typeset -A vars
+      eval "vars=($(jq -r --arg env $env --arg choice $choice '.[$env][$choice] | to_entries | .[] | .key + \"=\" + @sh .value' <<< "$json"))"
+    else 
+      keys=".$*"
+      typeset -A vars
+      eval "vars=($(jq -r "$keys | to_entries | .[] | .key + \"=\" + @sh .value" <<< "$json"))"
+    fi
+    for key value in "${(@kv)vars}"; do
+      if [[ "$key" == "cmd" ]]; then
+        eval "$value"
+        echo "executed: $value" >&2
+      else
+        export "$key=$value"
+        echo "environment set: $key" >&2
+      fi
+    done
+  else
+    echo "'~/.secrets.json.gpg' not found"
+  fi
+}
+
+# Widget personnalisé pour navigation complétion
+function down-or-complete() {
+  if [[ $WIDGET == *menu* ]]; then
+    zle .down-line-or-history
+  else
+    zle expand-or-complete
+  fi
+}
+zle -N down-or-complete
+
+function up-or-complete() {
+  if [[ $WIDGET == *menu* ]]; then
+    zle .up-line-or-history
+  else
+    zle expand-or-complete
+  fi
+}
+zle -N up-or-complete

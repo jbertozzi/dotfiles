@@ -1,0 +1,14 @@
+alias y2j="python3 -c 'import sys, yaml, json; y=yaml.safe_load(sys.stdin.read()); print(json.dumps(y, indent=4))'"
+alias j2y="python3 -c 'import sys, yaml, json; print(yaml.dump(json.loads(sys.stdin.read())))'"
+alias jwt="jq -R 'split(\".\") | .[1] | @base64d | fromjson'"
+alias kon=kubeon
+alias koff=kubeoff
+alias von=vaulton
+alias voff=vaultoff
+
+if command -v nvim >/dev/null; then
+  export EDITOR=nvim
+  alias vi=nvim
+else
+  export EDITOR=vi
+fi
