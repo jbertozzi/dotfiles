@@ -25,31 +25,53 @@ vaultoff() {
   fi
 }
 
-# fonction e() → secrets
-e() {
+# fonction e() -> export environment variables defined in a gpg encrytped file
+function e() {
   if [[ -f ~/.secrets.json.gpg ]]; then
-    json=$(gpg --quiet --decrypt ~/.secrets.json.gpg 2>/dev/null)
+    json=$(gpg --quiet --decrypt ~/.secrets.json.gpg 2> /dev/null)
+    #json=$(cat ~/.secrets.json 2> /dev/null)
     if [[ $# == 0 ]]; then
       env=$(jq -r '. | to_entries[] | .key' <<< "$json" | fzf)
-      choice=$(jq -r --arg env "$env" '.[$env] | to_entries[] | .key' <<< "$json" | fzf)
-      typeset -A vars
-      eval "vars=($(jq -r --arg env $env --arg choice $choice '.[$env][$choice] | to_entries | .[] | .key + \"=\" + @sh .value' <<< "$json"))"
+      [[ -z "$env" ]] && return 1  # Exit if no env selected
+      choice=$(jq -r --arg env "$env" '. | to_entries[] | select(.key==$env) | .value | to_entries[] | .key' <<< "$json" | fzf)
+      [[ -z "$choice" ]] && return 1  # Exit if no choice selected
+
+      raw=$(jq -r --arg env "$env" --arg choice "$choice" '.[$env][$choice] | to_entries[] | @sh "\(.key)=\(.value)"' <<< "$json")
     else 
-      keys=".$*"
-      typeset -A vars
-      eval "vars=($(jq -r "$keys | to_entries | .[] | .key + \"=\" + @sh .value" <<< "$json"))"
+      keys=".$(printf "%s+" "$@")"
+      keys="${keys//\//.}"
+      keys="${keys%+}"
+      raw=$(jq -r "$keys | to_entries | map(@sh \"\(.key)=\(.value)\") | sort | join(\"\\n\")" <<< "$json")
     fi
-    for key value in "${(@kv)vars}"; do
+
+    typeset -A vars
+    while IFS='=' read -r key value; do
+      key="${key//\'/}"   # remove quotes from key
+      value="${value//\'/}" # remove quotes from value
+      vars[$key]="$value"
+    done <<< "$raw"
+
+    # for each key, we export the variable, unless the key is 'cmd' in which 
+    # case we execute a command (useful for ssh port forwarding for example)
+    local executed=""
+    keys=("${(@o)${(k)vars}}") # sort the keys
+    for key in "${keys[@]}"
+    do
       if [[ "$key" == "cmd" ]]; then
-        eval "$value"
-        echo "executed: $value" >&2
+        eval "${vars[$key]}"
+        executed="${vars[$key]}"
       else
-        export "$key=$value"
-        echo "environment set: $key" >&2
+        export "$key=${vars[$key]}"
       fi
+      printf "environment set: %s" "${key}" >&2
+      if [[ -n "$executed" ]]; then
+        printf " (cmd: %s)" "${executed}" >&2
+      fi
+      printf "\n" >&2
+      executed=""
     done
   else
-    echo "'~/.secrets.json.gpg' not found"
+    printf "'~/.secrets.json.gpg' not found\n"
   fi
 }
 
