@@ -25,54 +25,78 @@ vaultoff() {
   fi
 }
 
-# fonction e() -> export environment variables defined in a gpg encrytped file
+# fonction e() → secrets
 function e() {
-  if [[ -f ~/.secrets.json.gpg ]]; then
-    json=$(gpg --quiet --decrypt ~/.secrets.json.gpg 2> /dev/null)
-    #json=$(cat ~/.secrets.json 2> /dev/null)
-    if [[ $# == 0 ]]; then
-      env=$(jq -r '. | to_entries[] | .key' <<< "$json" | fzf)
-      [[ -z "$env" ]] && return 1  # Exit if no env selected
-      choice=$(jq -r --arg env "$env" '. | to_entries[] | select(.key==$env) | .value | to_entries[] | .key' <<< "$json" | fzf)
-      [[ -z "$choice" ]] && return 1  # Exit if no choice selected
+  local secrets="$HOME/.secrets.json.gpg"
+  local json env choice executed verbose=0
+  local -A vars
 
-      raw=$(jq -r --arg env "$env" --arg choice "$choice" '.[$env][$choice] | to_entries[] | @sh "\(.key)=\(.value)"' <<< "$json")
-    else 
-      keys=".$(printf "%s+" "$@")"
-      keys="${keys//\//.}"
-      keys="${keys%+}"
-      raw=$(jq -r "$keys | to_entries | map(@sh \"\(.key)=\(.value)\") | sort | join(\"\\n\")" <<< "$json")
-    fi
+  # handle options
+  while getopts "v" opt; do
+    case $opt in
+      v) verbose=1 ;;
+    esac
+  done
+  shift $((OPTIND - 1))
 
-    typeset -A vars
-    while IFS='=' read -r key value; do
-      key="${key//\'/}"   # remove quotes from key
-      value="${value//\'/}" # remove quotes from value
-      vars[$key]="$value"
-    done <<< "$raw"
+  # graceful exit on Ctrl-C or ESC
+  trap 'echo "\n[interrupted] no changes made."; return 1' INT TERM
 
-    # for each key, we export the variable, unless the key is 'cmd' in which 
-    # case we execute a command (useful for ssh port forwarding for example)
-    local executed=""
-    keys=("${(@o)${(k)vars}}") # sort the keys
-    for key in "${keys[@]}"
-    do
-      if [[ "$key" == "cmd" ]]; then
-        eval "${vars[$key]}"
-        executed="${vars[$key]}"
-      else
-        export "$key=${vars[$key]}"
-      fi
-      printf "environment set: %s" "${key}" >&2
-      if [[ -n "$executed" ]]; then
-        printf " (cmd: %s)" "${executed}" >&2
-      fi
-      printf "\n" >&2
-      executed=""
-    done
-  else
-    printf "'~/.secrets.json.gpg' not found\n"
+  if [[ ! -f $secrets ]]; then
+    print "'$secrets' not found"
+    return 1
   fi
+
+  # decrypt the JSON secrets file
+  json=$(gpg --quiet --decrypt "$secrets" 2>/dev/null)
+  if [[ $? -ne 0 || -z "$json" ]]; then
+    print "Error: failed to decrypt $secrets"
+    return 1
+  fi
+
+  # if no argument → interactive selection
+  if (( $# == 0 )); then
+    env=$(jq -r '. | keys[]' <<<"$json" | fzf)
+    [[ -z $env ]] && { echo "Cancelled."; return 0 }
+
+    choice=$(jq -r --arg env "$env" '.[$env] | keys[]' <<<"$json" | fzf)
+    [[ -z $choice ]] && { echo "Cancelled."; return 0 }
+
+    # extract the selected dictionary and format as key=value pairs
+    while IFS='=' read -r k v; do
+      [[ -n $k ]] && vars[$k]=$v
+    done < <(jq -r --arg env "$env" --arg choice "$choice" \
+      '.[$env][$choice] | to_entries[] | "\(.key)=\(.value)"' <<<"$json")
+
+  else
+    # e toto.tata or e prod/db works
+    local keys=".$*"
+    keys="${keys//\//.}"  # allow '/' as a separator (default is '.')
+    while IFS='=' read -r k v; do
+      [[ -n $k ]] && vars[$k]=$v
+    done < <(jq -r "$keys | to_entries[] | \"\(.key)=\(.value)\"" <<<"$json")
+  fi
+
+  # for each key, we export the variable, unless the key is 'cmd' in which 
+  # case we execute a command (useful for ssh port forwarding for example)
+  local key
+  for key in ${(k)vars}; do
+    if [[ "$key" == "cmd" ]]; then
+      eval "${vars[$key]}"
+      if [[ $? -eq 0 ]]; then
+        print "command executed: ${vars[$key]}" >&2
+      else
+        print "command failed: ${vars[$key]}" >&2
+      fi
+    else
+      export "$key=${vars[$key]}"
+      if (( verbose )); then
+        print "environment set: $key=${vars[$key]}" >&2
+      else
+        print "environment set: $key" >&2
+      fi
+    fi
+  done
 }
 
 # Widget personnalisé pour navigation complétion
