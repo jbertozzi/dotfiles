@@ -73,3 +73,4 @@ eval "$(zoxide init zsh)"
 # custom aliases and functions
 [[ -f ~/.zsh_aliases ]] && source ~/.zsh_aliases
 [[ -f ~/.zsh_functions ]] && source ~/.zsh_functions
+
