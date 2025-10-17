@@ -2,10 +2,10 @@
 name = Jeremy Bertozzi
 email = jeremy.bertozi@gmail.com
 
-[includeIf "gitdir:~/dev/github.com/**/.git"]
+[includeIf "gitdir:~/dev/github.com/"]
   path = ~/.gitconfig.github
 
-[includeIf "gitdir:~/dev/github.foyer.lu/**/.git"]
+[includeIf "gitdir:~/dev/github.foyer.lu/"]
   path = ~/.gitconfig.foyer
 
 [alias]
@@ -16,4 +16,6 @@ email = jeremy.bertozi@gmail.com
 [init]
 	defaultBranch = master
 [pull]
-	rebase = true
+  rebase = true
+[credential]
+	helper = libsecret

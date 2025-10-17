@@ -5,5 +5,5 @@
 [commit]
   gpgsign = false
 
-[url "https://jbertozzi:${GITHUB_TOKEN}@github.com/"]
-  insteadOf = https://github.com/
+[credential "https://github.com"]
+  username = jbertozzi
