@@ -43,7 +43,7 @@ vim.cmd [[ autocmd BufReadPost *
     \   exe "normal g`\"" |
     \ endif ]]
 
-vim.g.ansible_vault_password_file = "/home/rtj/.vault"
+vim.g.ansible_vault_password_file = vim.fn.expand("$HOME/.vault")
 vim.deprecate = function() end
 --vim.cmd [[ autocmd FileType yaml.ansible setlocal keywordprg=ansible-doc ]]
 --vim.cmd [[ if has('wsl')
