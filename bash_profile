@@ -172,11 +172,6 @@ function e() {
   fi
 }
 
-# zoxide
-if [ $(command -v zoxide) ]; then
-  eval "$(zoxide init bash)"
-fi
-
 # starship
 if [ $(command -v starship) ]; then
   eval "$(starship init bash)"
@@ -205,6 +200,12 @@ export RIPGREP_CONFIG_PATH=~/.ripgreprc
 export TMUX_BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
 
 export TMUXP_CONFIGDIR=~/.config/tmuxp/
+
+# zoxide
+if [ $(command -v zoxide) ]; then
+  eval "$(zoxide init bash)"
+fi
+
 # local config
 if [ -f ~/.bash_local ]; then
    source ~/.bash_local
