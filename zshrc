@@ -36,6 +36,9 @@ bindkey '^K' up-or-complete
 bindkey -M menuselect '^J' down-line-or-history
 bindkey -M menuselect '^K' up-line-or-history
 
+# fix del
+bindkey "^[[3~" delete-char
+
 # history, without atuin
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -70,6 +73,9 @@ eval "$(atuin init zsh --disable-up-arrow)"
 # zoxide
 eval "$(zoxide init zsh)"
 
+if command -v tmux >/dev/null; then
+  tmux
+fi
 # custom aliases and functions
 [[ -f ~/.zsh_aliases ]] && source ~/.zsh_aliases
 [[ -f ~/.zsh_functions ]] && source ~/.zsh_functions
