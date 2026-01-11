@@ -48,6 +48,7 @@ SAVEHIST=10000
 if command -v kubectl >/dev/null; then
   source <(kubectl completion zsh)
   export do='--dry-run=client -oyaml'
+  command -v kubectl >/dev/null && alias k=kubectl
   command -v kubectx >/dev/null && alias kx=kubectx
   command -v kubens >/dev/null && alias ks=kubens
 fi
@@ -76,7 +77,9 @@ eval "$(zoxide init zsh)"
 if command -v tmux >/dev/null; then
   tmux
 fi
+
 # custom aliases and functions
 [[ -f ~/.zsh_aliases ]] && source ~/.zsh_aliases
 [[ -f ~/.zsh_functions ]] && source ~/.zsh_functions
 
+[[ -f ~/.zsh_local ]] && source ~/.zsh_local
