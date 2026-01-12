@@ -125,5 +125,10 @@ return {
     -- cmd = "VaultExpolorer",
     -- dir = "~/dev/github.com/neovault",
     -- dev = true,
+  },
+  {
+    "esmuellert/codediff.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    cmd = "CodeDiff",
   }
 }
