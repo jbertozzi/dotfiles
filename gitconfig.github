@@ -7,3 +7,4 @@
 
 [credential "https://github.com"]
   username = jbertozzi
+  helper = "!gh auth git-credential"
